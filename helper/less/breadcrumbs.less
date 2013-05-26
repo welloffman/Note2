@@ -1,0 +1,49 @@
+.breadcrumbs {
+	margin-right: 10px;
+	margin-left: 10px;
+	padding: 0 15px;
+	border-top: 1px solid #f4f4f4;
+	border-bottom: 1px solid #cfd0d2;
+
+	background-image: linear-gradient(bottom, rgb(237,237,237) 25%, rgb(244,244,244) 63%);
+	background-image: -o-linear-gradient(bottom, rgb(237,237,237) 25%, rgb(244,244,244) 63%);
+	background-image: -moz-linear-gradient(bottom, rgb(237,237,237) 25%, rgb(244,244,244) 63%);
+	background-image: -webkit-linear-gradient(bottom, rgb(237,237,237) 25%, rgb(244,244,244) 63%);
+	background-image: -ms-linear-gradient(bottom, rgb(237,237,237) 25%, rgb(244,244,244) 63%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.25, rgb(237,237,237)),
+		color-stop(0.63, rgb(244,244,244))
+	);
+
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+
+	box-shadow: inset 0 1px rgb(255,255,255);
+	-moz-box-shadow: inset 0 1px rgb(255,255,255);
+	-webkit-box-shadow: inset 0 1px rgb(255,255,255);
+
+	li {
+		display: inline-block;
+		font-size: 10pt;
+		color: #333;
+		padding: 5px 0;
+
+		a {
+			text-decoration: none;
+			color: #0e90d2;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		.divider {
+			padding: 0 5px;
+		}
+	}
+}

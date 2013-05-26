@@ -46,7 +46,7 @@ var AppRouter = Backbone.Router.extend({
 			id: note_id
 		});
 
-		this.note_view = new NoteView({model: this.note});
+		this.note_view = new NoteView({model: this.note, className: 'note-content'});
 		this.note.fetch();
 	},
 });

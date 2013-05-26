@@ -3,7 +3,7 @@
 		<ul class="breadcrumbs">
 			<%_.each(data.items, function(item){%>
 				<li><a href="#dir/<%=item.id%>"><%=item.title%></a></li>
-				<li><p>/</p></li>
+				<li><p class='divider'>/</p></li>
 			<%});%>
 			<li><p><%=data.cur_dir_title%></p></li>
 		</ul>

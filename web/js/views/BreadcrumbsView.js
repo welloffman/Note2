@@ -13,7 +13,7 @@ var BreadcrumbsView = Backbone.View.extend({
 		}
 
 		this.model.bind('change', function() {
-			$(".breadcrumbs").html(self.render().el);
+			$(".js-breadcrumbs").html(self.render().el);
 		});
 	}
 });
