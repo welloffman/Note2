@@ -1,0 +1,22 @@
+{%raw%}
+	<script type="text/template" id="nav_list">
+		<ul class="js-sortable">
+			<%_.each(elements, function(element){%>
+				
+				<li class="<%=element.type%>" data-id="<%=element.id%>">
+					<div class="drag"></div>
+					<%if(element.type == 'dir') {%>
+						<a href="#dir/<%=element.id%>">
+					<%} else {%>
+						<a href="#dir/<%=cur_dir_id%>/note/<%=element.id%>">
+					<%}%>
+						<div class="row_title">
+							<%=element.title%>
+						</div>
+					</a>				
+				</li>
+
+			<%}); %>
+		</ul>
+	</script>
+{%endraw%}

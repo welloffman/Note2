@@ -1,0 +1,7 @@
+parameters:
+#    acme_main.example.class: Acme\MainBundle\Example
+
+services:
+#    acme_main.example:
+#        class: %acme_main.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

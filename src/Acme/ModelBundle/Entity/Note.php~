@@ -1,0 +1,159 @@
+<?php
+
+namespace Acme\ModelBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Acme\ModelBundle\Entity\Note
+ *
+ * @ORM\Table(name="note")
+ * @ORM\Entity
+ */
+class Note extends Model
+{
+    /**
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(name="dir_id", type="integer", length=10)
+     */
+    private $dir_id;
+
+    /**
+     * @ORM\Column(name="title", type="string", length=255)
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(name="content", type="string")
+     */
+    private $content;
+
+     /**
+     * @ORM\ManyToOne(targetEntity="Dir", inversedBy="notes")
+     * @ORM\JoinColumn(name="dir_id", referencedColumnName="id")
+     */
+    protected $dir;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Position")
+     * @ORM\JoinColumn(name="pos_id", referencedColumnName="id")
+     */
+    protected $position;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set dir_id
+     *
+     * @param integer $dirId
+     * @return Note
+     */
+    public function setDirId($dirId)
+    {
+        $this->dir_id = $dirId;
+    
+        return $this;
+    }
+
+    /**
+     * Get dir_id
+     *
+     * @return integer 
+     */
+    public function getDirId()
+    {
+        return $this->dir_id;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return Note
+     */
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string 
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set content
+     *
+     * @param string $content
+     * @return Note
+     */
+    public function setContent(string $content)
+    {
+        $this->content = $content;
+    
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string 
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set dir
+     *
+     * @param Acme\ModelBundle\Entity\Dir $dir
+     * @return Note
+     */
+    public function setDir(\Acme\ModelBundle\Entity\Dir $dir = null)
+    {
+        $this->dir = $dir;
+    
+        return $this;
+    }
+
+    /**
+     * Get dir
+     *
+     * @return Acme\ModelBundle\Entity\Dir 
+     */
+    public function getDir()
+    {
+        return $this->dir;
+    }
+
+    public function toArray() {
+        return array(
+            'id' => $this->getId(),
+            'dir_id' => $this->getDirId(),
+            'title' => $this->getTitle(),
+            'content' => $this->getContent()
+        );
+    }
+}

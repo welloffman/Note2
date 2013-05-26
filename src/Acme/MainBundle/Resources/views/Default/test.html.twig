@@ -1,0 +1,16 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	{% include 'AcmeMainBundle:Default:header.html.twig' %}
+	<div class="container">
+	<div class="row">
+		<div class="span12">
+			<ul style="color: white; padding-left: 30px; line-height: 1.3;">
+				{%for item in items%}
+					<li>{{item|escape}}</li>
+				{%endfor%}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}

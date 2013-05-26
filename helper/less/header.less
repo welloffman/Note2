@@ -1,0 +1,109 @@
+#header {
+	padding-top: 20px;
+	line-height: 20px;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+	color: #404040;
+
+	.container {
+		text-align: center;
+
+		.nav {
+			height: 48px;
+
+  			.inline-block;
+
+			li {
+				position: relative;
+				margin: 0 0 4px;
+				height: 44px;
+				color: #ccc;
+				text-shadow: 0 1px rgba(0, 0, 0, 0.9);
+				border: 1px solid #232428;
+				border-right: 0;
+				border-bottom-color: #1f2326;
+				vertical-align: top;
+				
+				background-color: rgba(0, 0, 0, 0.05);
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.08)), color-stop(100%, rgba(255, 255, 255, 0)));
+				background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+				background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+				background-image: -ms-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+				background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+				background-image: linear-gradient(top, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+
+				-webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px #262a2e, 0 3px #1f2326, 0 4px 3px rgba(0, 0, 0, 0.2);
+  				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 2px #262a2e, 0 3px #1f2326, 0 4px 3px rgba(0, 0, 0, 0.2);
+
+				.inline-block;
+
+				&:active {
+					margin-top: 4px;
+					height: 43px;
+					color: #aaa;
+					text-shadow: 0 1px black;
+					
+					background-color: rgba(255, 255, 255, 0.03);
+					background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0.2)), color-stop(100%, rgba(0, 0, 0, 0)));
+					background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+					background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+					background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+					background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+					background-image: linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+					
+					-webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.15), 1px 0 rgba(0, 0, 0, 0.05), -1px 0 rgba(0, 0, 0, 0.05), 0 1px rgba(255, 255, 255, 0.05);
+					box-shadow: inset 0 1px rgba(255, 255, 255, 0.05), inset 0 -1px 1px rgba(0, 0, 0, 0.15), 1px 0 rgba(0, 0, 0, 0.05), -1px 0 rgba(0, 0, 0, 0.05), 0 1px rgba(255, 255, 255, 0.05);
+				}
+
+				a {
+					display: block;
+					line-height: 44px;
+					padding: 0 20px;
+					font-size: 12px;
+					font-weight: bold;
+					color: inherit;
+					text-decoration: none;
+					outline: none;
+
+					&.nav-icon {
+						padding: 0 15px;
+					}
+				}
+
+				&:first-child {
+					border-left-width: 1px;
+					border-left-color: #212425;
+					border-radius: 5px 0 0 5px;
+				}
+
+				&:last-child {
+					border-right-width: 1px;
+					border-right-color: #212425;
+					border-radius: 0 5px 5px 0;
+				}
+
+				&:hover {
+					color: #b0d157;
+					text-shadow: 0 1px black, 0 0 20px rgba(255, 255, 255, 0.5);
+				}
+
+				.icon-home {
+					background-position: 0 0;
+					width: 16px;
+					height: 16px;
+					vertical-align: text-top;
+					background-image: url("/img/icon_home.png");
+					background-repeat: no-repeat;
+					background-color: transparent;
+					border: 0;
+					color: transparent;
+					font: 0/0 a;
+					text-shadow: none;
+
+					.inline-block;
+				}
+			}
+		}
+	}
+}

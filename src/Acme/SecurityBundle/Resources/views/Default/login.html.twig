@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    {% include 'AcmeMainBundle:Default:header.html.twig' %}
+
+    {% if error %}
+        <div>{{ error.message }}</div>
+    {% endif %}
+
+    <div class="container">
+        <form class="login" method="post" action="{{ path('login_check') }}">
+            <p>
+                <label for="login">Логин:</label>
+                <input type="text" name="_username" id="login" placeholder="Логин">
+            </p>
+            <p>
+                <label for="password">Пароль:</label>
+                <input type="password" name="_password" id="password" placeholder="Пароль">
+                {#
+                    If you want to control the URL the user is redirected to on success (more details below)
+                    <input type="hidden" name="_target_path" value="/account" />
+                #}
+            </p>
+            <p class="login-submit">
+                <button type="submit" class="login-button">Вход</button>
+            </p>
+            <p class="forgot-password"><a href="">Забыли пароль?</a></p>
+        </form>
+    </div>
+{% endblock %}

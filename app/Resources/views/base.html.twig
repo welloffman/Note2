@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('/css/note.css') }}" type="text/css" rel="stylesheet" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="/js/libs/jquery_min.js"></script>
+            <script src="/js/libs/jquery-ui-1.10.2.custom.min.js"></script>
+            <script src="/js/libs/underscore.js"></script>
+            <script src="/js/libs/json2.js"></script>
+            <script src="/js/libs/backbone.js"></script>
+        {% endblock %}
+    </body>
+</html>

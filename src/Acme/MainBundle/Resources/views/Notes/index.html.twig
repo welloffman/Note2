@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	{% include 'AcmeMainBundle:Default:header.html.twig' %}
+
+	<div id="main">
+		<div class="breadcrumbs"></div>
+		<div class="left">
+			<div class="wrapper js-nav-list"></div>
+		</div><div class="right">
+			<div class="wrapper js-note"></div>
+		</div>
+	</div>
+	<div id="templates">
+		{% include 'AcmeMainBundle:Underscore:navlist.html.twig' %}
+		{% include 'AcmeMainBundle:Underscore:note.html.twig' %}
+		{% include 'AcmeMainBundle:Underscore:breadcrumbs.html.twig' %}
+	</div>
+	{% include 'AcmeMainBundle:Underscore:json.html.twig' with {'json_string': json_string} %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="/js/app_note.js"></script>
+	<script src="/js/models/NavListItem.js"></script>
+	<script src="/js/models/Note.js"></script>
+	<script src="/js/models/Breadcrumbs.js"></script>
+	<script src="/js/views/NavListView.js"></script>
+	<script src="/js/views/NoteView.js"></script>
+	<script src="/js/views/BreadcrumbsView.js"></script>
+{% endblock %}

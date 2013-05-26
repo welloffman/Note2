@@ -1,0 +1,24 @@
+acme_model:
+    resource: "@AcmeModelBundle/Resources/config/routing.yml"
+    prefix:   /
+
+acme_main:
+    resource: "@AcmeMainBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Internal routing configuration to handle ESI
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal
+
+login:
+    pattern:   /login
+    defaults:  { _controller: AcmeSecurityBundle:Default:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
+
+registration: 
+    pattern: /registration
+    defaults: { _controller: AcmeSecurityBundle:Default:registration }

@@ -1,0 +1,76 @@
+_welcome:
+    pattern:  /welcome
+    defaults: { _controller: AcmeDemoBundle:Welcome:index }
+
+_demo_secured:
+    resource: "@AcmeDemoBundle/Controller/SecuredController.php"
+    type:     annotation
+
+_demo:
+    resource: "@AcmeDemoBundle/Controller/DemoController.php"
+    type:     annotation
+    prefix:   /demo
+
+_wdt:
+    resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+    prefix:   /_wdt
+
+_profiler:
+    resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+    prefix:   /_profiler
+
+_configurator:
+    resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
+    prefix:   /_configurator
+
+_main:
+    resource: routing.yml
+
+
+acme_main_homepage:
+    pattern:  /
+    defaults: { _controller: AcmeMainBundle:Default:index }
+
+login:
+    pattern:   /login
+    defaults:  { _controller: AcmeSecurityBundle:Default:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
+
+registration: 
+    pattern: /registration
+    defaults: { _controller: AcmeSecurityBundle:Default:registration }
+
+notes: 
+    pattern: /notes
+    defaults: { _controller: AcmeMainBundle:Notes:index}
+
+save_nav_list:
+    pattern:  /save_nav_list
+    defaults: { _controller: AcmeMainBundle:Notes:saveNavList }
+    requirements:
+        _method:  POST
+
+get_note:
+    pattern:  /get_note
+    defaults: { _controller: AcmeMainBundle:Notes:getNote }
+    requirements:
+        _method:  POST
+
+get_nav_list: 
+    pattern: /get_nav_list
+    defaults: { _controller: AcmeMainBundle:Notes:getNavList }
+    requirements:
+        _method: POST
+
+get_breadcrumbs:
+    pattern: /get_breadcrumbs
+    defaults: { _controller: AcmeMainBundle:Notes:getBreadcrumbs }
+    requirements: 
+        _method: POST
+
+test:
+    pattern: /test
+    defaults: { _controller: AcmeMainBundle:Test:index }
