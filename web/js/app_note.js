@@ -19,6 +19,9 @@ var AppRouter = Backbone.Router.extend({
 	initialize: function(options) {
 		var self = this;
 
+		this.control_panel = new ControlPanelView();
+		$(".js-control-panel").html( this.control_panel.render().el );
+
 		this.breadcrumbs = new Breadcrumbs();
 		this.breadcrumbs_view = new BreadcrumbsView({model: this.breadcrumbs});
 

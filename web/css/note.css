@@ -600,3 +600,33 @@ body {
 .breadcrumbs li .divider {
   padding: 0 5px;
 }
+.control-panel {
+  font-size: 10pt;
+  margin: 0 10pt 10pt 10pt;
+}
+.control-panel .controls li {
+  display: -moz-inline-stack;
+  /* FF2- */
+
+  display: inline-block;
+  *display: inline;
+  /* IE6-7 inline-block hack */
+
+  *zoom: 1;
+  /* IE6-7 hasLayout */
+
+}
+.control-panel .controls li a {
+  text-decoration: none;
+  color: black;
+}
+.control-panel .controls li a:hover {
+  text-decoration: underline;
+}
+.control-panel .controls li .control-group {
+  border-right: 1px solid black;
+  padding: 0 10px;
+}
+.control-panel:first-child {
+  border-left: 1px solid black;
+}

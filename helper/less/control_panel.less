@@ -1,0 +1,29 @@
+.control-panel {
+	font-size: 10pt;
+	margin: 0 10pt 10pt 10pt;
+
+	.controls {
+		li {
+			.inline-block;
+
+			a {
+				text-decoration: none;
+				color: black;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			.control-group {
+				border-right: 1px solid black;
+				padding: 0 10px;
+			}
+
+		}
+	}
+
+	&:first-child {
+		border-left: 1px solid black;
+	}
+}

@@ -5,6 +5,7 @@
 
 	<div id="main">
 		<div class="wrapper">
+			<div class="js-control-panel"></div>
 			<div class="js-breadcrumbs"></div>
 			<div class="left js-nav-list"></div>
 			<div class="right">
@@ -16,6 +17,7 @@
 		{% include 'AcmeMainBundle:Underscore:navlist.html.twig' %}
 		{% include 'AcmeMainBundle:Underscore:note.html.twig' %}
 		{% include 'AcmeMainBundle:Underscore:breadcrumbs.html.twig' %}
+		{% include 'AcmeMainBundle:Underscore:control_panel.html.twig' %}
 	</div>
 	{% include 'AcmeMainBundle:Underscore:json.html.twig' with {'json_string': json_string} %}
 {% endblock %}
@@ -30,4 +32,5 @@
 	<script src="/js/views/NavListView.js"></script>
 	<script src="/js/views/NoteView.js"></script>
 	<script src="/js/views/BreadcrumbsView.js"></script>
+	<script src="/js/views/ControlPanelView.js"></script>
 {% endblock %}
