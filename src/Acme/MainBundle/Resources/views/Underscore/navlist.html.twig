@@ -4,16 +4,16 @@
 			<%_.each(elements, function(element){%>
 				
 				<li class="<%=element.type%>" data-id="<%=element.id%>">
-					<div class="drag"></div>
+					<div class="drag tmb"><div class="thumb"></div></div>
+					<div class="ico tmb"><div class="thumb"></div></div>
 					<%if(element.type == 'dir') {%>
 						<a href="#dir/<%=element.id%>">
 					<%} else {%>
 						<a href="#dir/<%=cur_dir_id%>/note/<%=element.id%>">
 					<%}%>
-						<div class="row_title">
-							<%=element.title%>
-						</div>
-					</a>				
+						<%=element.title%>
+					</a>
+					<div class="check-box"></a>				
 				</li>
 
 			<%}); %>
