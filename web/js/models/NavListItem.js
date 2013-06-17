@@ -8,7 +8,8 @@ var NavListItem = Backbone.Model.extend({
 			id: undefined,
 			title: undefined,
 			type: undefined,
-			position: undefined
+			position: undefined,
+			selected: false
 		};
 	},
 

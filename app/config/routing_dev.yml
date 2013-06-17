@@ -71,6 +71,12 @@ get_breadcrumbs:
     requirements: 
         _method: POST
 
+save_note:
+    pattern: /save_note
+    defaults: { _controller: AcmeMainBundle:Notes:saveNote }
+    requirements: 
+        _method: POST
+
 test:
     pattern: /test
     defaults: { _controller: AcmeMainBundle:Test:index }

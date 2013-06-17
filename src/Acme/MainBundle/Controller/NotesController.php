@@ -5,6 +5,7 @@ namespace Acme\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\ModelBundle\Entity\Dir;
 use Acme\ModelBundle\Entity\Note;
+use Acme\ModelBundle\Entity\Position;
 use Acme\MainBundle\Helper\NavList;
 use Acme\MainBundle\Helper\Breadcrumbs;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,9 +83,12 @@ class NotesController extends Controller {
 
         //todo: Сделать проверку доступа пользователя к записи
 
-        $note = $note_rep->find( $request->get('note_id') )->toArray();
+        $note = $note_rep->find( $request->get('note_id') );
+        $parent_dir = $note->getDir();
+        $note_data = $note->toArray();
+        $note_data['parent_dir'] = $parent_dir->getId();
 
-        return new Response( json_encode(array( 'success' => true, 'note' => $note)) );
+        return new Response( json_encode(array( 'success' => true, 'note' => $note_data)) );
     }
 
     /**
@@ -141,5 +145,51 @@ class NotesController extends Controller {
             'dir_title' => $dir->getTitle(), 
             'items' => $breadcrumbs->getData() 
         )) );
+    }
+
+    /**
+     * Сохранение записи (Если запись существует, позицию и родительский раздел не перезаписывает)
+     * @return Response
+     */
+    public function saveNoteAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->get('request')->request;
+        $note_data = $request->get('note_data');
+        
+        $em = $this->getDoctrine()->getManager();
+        $note_rep = $em->getRepository('AcmeModelBundle:Note');
+
+        if(isset($note_data["id"])) {
+            $note = $note_rep->find($item['id']);
+            if(!$note) return new Response( json_encode(array('success' => false)) );
+        }
+        else {
+            $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
+
+            if(isset($note_data['parent_dir'])) {
+                $dir = $dir_rep->findOneBy( array('id' => $note_data['parent_dir'], 'user_id' => $user->getId()) );
+            } else {
+                $dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
+            }
+            if(!$dir) return new Response( json_encode(array('success' => false)) );
+
+            $nav_list = new NavList($this->getDoctrine(), $user);
+
+            $note = new Note();
+            $position = new Position();
+            $position->setPos($nav_list->fetch($dir)->getLength() + 1);
+            $em->persist($position);
+
+            $note->setDir($dir);
+            $note->setPosition($position);
+        }
+
+        $note->setTitle($note_data['title']);
+        $note->setContent($note_data['content']);
+
+        $em->persist($note);
+        $em->flush();
+
+        return new Response( json_encode(array('success' => true)) );
     }
 }

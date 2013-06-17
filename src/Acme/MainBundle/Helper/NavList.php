@@ -73,4 +73,8 @@ class NavList {
     public function getItems() {
         return $this->items;
     }
+
+    public function getLength() {
+        return count($this->items);
+    }
 }

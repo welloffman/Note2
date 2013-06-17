@@ -9,6 +9,7 @@ var NavListView = Backbone.View.extend({
 
 		this.render = function() {
 			$(this.el).html(this.template( {elements: this.collection.toJSON(), cur_dir_id: this.options.cur_dir_id} ));
+			bindEventes();
 			return this;
 		}
 
@@ -24,6 +25,12 @@ var NavListView = Backbone.View.extend({
 				stop: self.collection.savePositions 
 			});
 			return this;
+		}
+
+		bindEventes = function() {
+			$(self.el).find('.check-box').on('click', function() {
+				$(this).toggleClass('active');
+			});
 		}
 
 		$('body').on('click', '.drag', function() {

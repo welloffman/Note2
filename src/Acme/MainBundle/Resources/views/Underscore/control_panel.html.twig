@@ -2,8 +2,16 @@
 	<script type="text/template" id="cpanel">		
 		<div class="control-panel">
 			<ul class="controls">
-				<li><div class="wrap"><a class="cp-add-dir" href="#" title="Добавить раздел"></a></div></li>
-				<li><div class="wrap"><a class="cp-add-note" href="#" title="Добавить запись"></a></div></li>
+				<li>
+					<div class="wrap">
+						<a class="cp-add-dir" href="#<%if(model.cur_dir_id){%>dir/<%=model.cur_dir_id%>/<%}%>add_dir" title="Добавить раздел"></a>
+					</div>
+				</li>
+				<li>
+					<div class="wrap">
+						<a class="cp-add-note" href="#<%if(model.cur_dir_id){%>dir/<%=model.cur_dir_id%>/<%}%>add_note" title="Добавить запись"></a>
+					</div>
+				</li>
 				<li><div class="wrap"><a class="cp-edit" href="#" title="Изменить"></a></div></li>
 				<li><div class="wrap"><a class="cp-copy" href="#" title="Копировать"></a></div></li>
 				<li><div class="wrap"><a class="cp-cut" href="#" title="Вырезать"></a></div></li>

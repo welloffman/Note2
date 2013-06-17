@@ -1,0 +1,18 @@
+{%raw%}
+	<script type="text/template" id="editor">
+		<h2>Заголовок</h2>
+		<div class="editor_title">
+			<input class="js-title" type="text" <%if(item.entity.title) {%>value="<%=item.entity.title%>"<%}%> />
+		</div>
+		<%if(item.type == "note") {%>
+			<h2>Текст записи</h2>
+			<form method="post">
+			    <textarea id="mce"></textarea>
+			</form>
+		<%}%>
+		<div class="editor_footer">
+			<input class="btn js-save" type="button" value="Сохранить" />
+			<input class="btn cancel js-cancel" type="button" value="Отмена" />
+		</div>
+	</script>
+{%endraw%}

@@ -7,7 +7,8 @@ var Note = Backbone.Model.extend({
 		return {
 			id: undefined,
 			title: undefined,
-			content: undefined
+			content: undefined,
+			parent_dir: undefined
 		};
 	},
 
@@ -17,11 +18,7 @@ var Note = Backbone.Model.extend({
 		this.updateModel = function(data) {
 			if(!data) return false;
 
-			self.set({
-				'id': data.id,
-				'title': data.title,
-				'content': data.content
-			});
+			self.set( _.extend(self.attributes, data) );
 		}
 
 		this.sync = function(method, model, options) {
@@ -30,6 +27,14 @@ var Note = Backbone.Model.extend({
 					resp = $.parseJSON(resp);
 					if(resp.success) self.updateModel(resp.note);
 					else alert('Ошибка соединения с сервером!');
+				});
+			}
+			else if(method == 'save') {
+				
+			}
+			else if(method == 'create') {
+				$.post("./save_note", {note_data: self.toJSON()}, function(result) {
+					
 				});
 			}
 		}

@@ -1,0 +1,39 @@
+.btn {
+	padding: 8px 20px;
+	border: 1px solid #1d7ad4;
+	border-bottom: 1px solid #0a457d;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 11pt;
+	color: white;
+	text-shadow: 0 -1px 0 #2f80c3;
+	cursor: pointer;
+
+	.box-shadow(inset 0 1px 0 #7ad6ff);
+	#gradient.vertical(#5fbffa, #198af3);
+
+	&:hover {
+		#gradient.vertical(#71c6fb, #198af3);
+	}
+	
+	&:active {
+		#gradient.vertical(#198af3, #5fbffa);
+	}
+
+	&.cancel {
+		border: 1px solid #c04331;
+		border-bottom: 1px solid #55140a;
+		text-shadow: 0 -1px 0 #b2493f;
+
+		.box-shadow(inset 0 1px 0 #f29ba0);
+		#gradient.vertical(#e97270, #e5412f);
+
+		&:hover {
+			#gradient.vertical(#ec8886, #e5412f);
+		}
+		
+		&:active {
+			#gradient.vertical(#e5412f, #e97270);
+		}
+	}
+}

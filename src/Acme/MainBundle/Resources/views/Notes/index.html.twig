@@ -18,6 +18,7 @@
 		{% include 'AcmeMainBundle:Underscore:note.html.twig' %}
 		{% include 'AcmeMainBundle:Underscore:breadcrumbs.html.twig' %}
 		{% include 'AcmeMainBundle:Underscore:control_panel.html.twig' %}
+		{% include 'AcmeMainBundle:Underscore:editor.html.twig' %}
 	</div>
 	{% include 'AcmeMainBundle:Underscore:json.html.twig' with {'json_string': json_string} %}
 {% endblock %}
@@ -25,12 +26,16 @@
 {% block javascripts %}
 	{{ parent() }}
 
+	<script src="/js/libs/tinymce/tiny_mce.js"></script>
 	<script src="/js/app_note.js"></script>
 	<script src="/js/models/NavListItem.js"></script>
 	<script src="/js/models/Note.js"></script>
 	<script src="/js/models/Breadcrumbs.js"></script>
+	<script src="/js/models/ControlPanel.js"></script>
+	<script src="/js/models/Editor.js"></script>
 	<script src="/js/views/NavListView.js"></script>
 	<script src="/js/views/NoteView.js"></script>
 	<script src="/js/views/BreadcrumbsView.js"></script>
 	<script src="/js/views/ControlPanelView.js"></script>
+	<script src="/js/views/EditorView.js"></script>
 {% endblock %}
