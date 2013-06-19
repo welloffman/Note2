@@ -77,6 +77,12 @@ save_note:
     requirements: 
         _method: POST
 
+delete:
+    pattern: /delete
+    defaults: { _controller: AcmeMainBundle:Notes:delete }
+    requirements: 
+        _method: POST
+
 test:
     pattern: /test
     defaults: { _controller: AcmeMainBundle:Test:index }

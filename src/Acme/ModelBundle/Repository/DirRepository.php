@@ -16,7 +16,8 @@ class DirRepository extends EntityRepository {
 	 */
     public function findJoinedPosition($pid, $user_id)
 	{
-	    $query = $this->getEntityManager()->createQuery(' SELECT d, p FROM AcmeModelBundle:Dir d JOIN d.position p WHERE d.user_id=:user_id and d.pid=:pid')
+	    $query = $this->getEntityManager()
+	    ->createQuery(' SELECT d, p FROM AcmeModelBundle:Dir d JOIN d.position p WHERE d.user_id=:user_id and d.pid=:pid')
 	    ->setParameter('user_id', $user_id)->setParameter('pid', $pid);
 		
 		try {

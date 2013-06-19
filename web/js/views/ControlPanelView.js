@@ -2,6 +2,10 @@
  * Вид для контрольной панели
  */
 var ControlPanelView = Backbone.View.extend({
+	events: {
+		'click .cp-delete': function() { $('body').trigger('cp-delete'); return false; }
+	},
+
 	initialize: function() {
 		var self = this;
 
@@ -9,13 +13,10 @@ var ControlPanelView = Backbone.View.extend({
 		this.template = _.template( $('#cpanel').html() );
 
 		this.render = function() {
+			this.remove();
 			$(this.el).html(this.template( {model: this.model.toJSON()} ));
-			bindEventes();
+			this.delegateEvents();
 			return this;
-		}
-
-		function bindEventes() {
-			
 		}
 
 		this.model.bind('change', function() {

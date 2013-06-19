@@ -32,13 +32,12 @@ class Note extends Model
 
      /**
      * @ORM\ManyToOne(targetEntity="Dir", inversedBy="notes")
-     * @ORM\JoinColumn(name="dir_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pid", referencedColumnName="id")
      */
     protected $dir;
 
     /**
-     * @ORM\OneToOne(targetEntity="Position")
-     * @ORM\JoinColumn(name="pos_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="PositionNote", mappedBy="note")
      */
     protected $position;
 
@@ -133,20 +132,20 @@ class Note extends Model
     /**
      * Set position
      *
-     * @param Acme\ModelBundle\Entity\Position $position
+     * @param Acme\ModelBundle\Entity\PositionNote $position
      * @return Note
      */
-    public function setPosition(\Acme\ModelBundle\Entity\Position $position = null)
+    public function setPosition(\Acme\ModelBundle\Entity\PositionNote $position = null)
     {
         $this->position = $position;
-    
+        $this->position->setNote($this);
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return Acme\ModelBundle\Entity\Position 
+     * @return Acme\ModelBundle\Entity\PositionNote 
      */
     public function getPosition()
     {

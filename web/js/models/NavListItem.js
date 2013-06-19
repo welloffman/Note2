@@ -54,11 +54,21 @@ var NavList = Backbone.Collection.extend({
 						else alert('Ошибка соединения с сервером!');
 					});
 				}
-			}
-			else if(method == 'read') {
+			} else if(method == 'read') {
 				$.post('./get_nav_list', {dir_id: options.dir_id}, function(resp) {
 					resp = $.parseJSON(resp);
 					if(resp.success) self.reset(resp.items, {dir_id: resp.dir_id});
+					else alert('Ошибка соединения с сервером!');
+				});
+			} else if(method == 'delete') {
+				var selected = self.where({'selected': true});
+				var data = { dir: [], note: [] };
+				_.each(selected, function(item) {
+					data[ item.get('type') ].push(item.get('id'));
+				});
+				$.post('./delete', {ids: data}, function(resp) {
+					resp = $.parseJSON(resp);
+					if(resp.success) self.remove(selected);
 					else alert('Ошибка соединения с сервером!');
 				});
 			}
@@ -88,8 +98,12 @@ var NavList = Backbone.Collection.extend({
 		 * @param  string type Тип пункта
 		 * @param  int id Ид пункта
 		 */
-		this.selectItem = function(type, id) {
-			debugger;
+		this.toggle = function(type, id) {
+			var array = self.where({'type': type, 'id': id});
+			var model = array.length ? array[0] : null;
+			if(model) {
+				model.set('selected', !model.get('selected'));
+			}
 		};
 
 		function clearChangeHistory() {

@@ -5,7 +5,8 @@ namespace Acme\MainBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Acme\ModelBundle\Entity\Dir;
 use Acme\ModelBundle\Entity\Note;
-use Acme\ModelBundle\Entity\Position;
+use Acme\ModelBundle\Entity\PositionDir;
+use Acme\ModelBundle\Entity\PositionNote;
 use Acme\MainBundle\Helper\NavList;
 use Acme\MainBundle\Helper\Breadcrumbs;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,27 @@ class NotesController extends Controller {
 	 * Вывод стартовой страницы записей
 	 */
     public function indexAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
+        $dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
+
+        if(!$dir) {
+            $position = new PositionDir();
+            $position->setPos(0);
+            
+            $dir = new Dir();
+            $dir->setUserId($user->getId());
+            $dir->setTitle('Главный раздел');
+            $dir->setPosition($position);
+
+            $em->persist($dir);
+            $em->persist($position);
+            $em->flush();
+        }
+        //$em->remove($dir);
+        //$em->flush();
+
         return $this->render('AcmeMainBundle:Notes:index.html.twig', array(
             'json_string' => json_encode(array())
         ));
@@ -176,7 +198,7 @@ class NotesController extends Controller {
             $nav_list = new NavList($this->getDoctrine(), $user);
 
             $note = new Note();
-            $position = new Position();
+            $position = new PositionNote();
             $position->setPos($nav_list->fetch($dir)->getLength() + 1);
             $em->persist($position);
 
@@ -188,6 +210,30 @@ class NotesController extends Controller {
         $note->setContent($note_data['content']);
 
         $em->persist($note);
+        $em->flush();
+
+        return new Response( json_encode(array('success' => true)) );
+    }
+
+    public function deleteAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->get('request')->request;
+        $em = $this->getDoctrine()->getManager();
+        $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
+        $note_rep = $em->getRepository('AcmeModelBundle:Note');
+
+        $ids = array_merge( array('dir'=>array(), 'note'=>array()), $request->get('ids') );
+        foreach($ids['dir'] as $dir_id) {
+            $dir = $dir_rep->findOneBy( array('id' => $dir_id, 'user_id' => $user->getId()) );
+            if($dir) $em->remove($dir);
+        }
+        foreach($ids['note'] as $note_id) {
+            $note = $note_rep->find($note_id);
+            if($note) {
+                $parent_dir = $note->getDir();
+                if($parent_dir->getUserId() == $user->getId()) $em->remove($note);
+            }
+        }
         $em->flush();
 
         return new Response( json_encode(array('success' => true)) );

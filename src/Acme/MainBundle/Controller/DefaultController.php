@@ -7,13 +7,7 @@ use Acme\ModelBundle\Entity\User;
 
 class DefaultController extends Controller {
     public function indexAction() {
-    	$id = 1;
-    	$user = $this->getDoctrine()->getRepository('AcmeModelBundle:User')->find($id);
-		if (!$user) {
-	        throw $this->createNotFoundException('No user found for id ' . $id);
-	    }
-
-        return $this->render('AcmeMainBundle:Default:index.html.twig', array('user_login' => $user->getUsername()));
+    	return $this->render('AcmeMainBundle:Default:index.html.twig');
     }
 
     public function headerAction() {

@@ -10,31 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class TestController extends Controller {
 
     public function indexAction() {
-        /*$em = $this->getDoctrine()->getManager();
-        $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
-        $note_rep = $em->getRepository('AcmeModelBundle:Note');
-
-        $note = $note_rep->find(1944);
-        $note->setTitle('<p>444-----------</p>');
-        $items = $note->toArray(); 
-
-        return $this->render('AcmeMainBundle:Default:test.html.twig', array(
-            'items' => $items
-        ));*/
-
-
         $user = $this->get('security.context')->getToken()->getUser();
-        //$request = $this->get('request')->request;
-
         $em = $this->getDoctrine()->getManager();
         $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
-        $note_rep = $em->getRepository('AcmeModelBundle:Note');
+        $dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
 
-        //todo: Сделать проверку доступа пользователя к записи
-
-        $note = $note_rep->find( 1945 );
-
-        print_r($note->toArray());
+        print_r($dir->toArray()); exit;
 
         return $this->render('AcmeMainBundle:Default:test.html.twig', array(
             'items' => $note

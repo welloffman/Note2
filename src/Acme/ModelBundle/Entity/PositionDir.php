@@ -5,12 +5,12 @@ namespace Acme\ModelBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Acme\ModelBundle\Entity\Position
+ * Acme\ModelBundle\Entity\PositionDir
  *
- * @ORM\Table(name="position")
+ * @ORM\Table(name="position_dir")
  * @ORM\Entity
  */
-class Position extends Model
+class PositionDir extends Model
 {
     /**
      * @var integer $id
@@ -28,6 +28,33 @@ class Position extends Model
      */
     protected $pos;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Dir", inversedBy="position")
+     * @ORM\JoinColumn(name="dir_id", referencedColumnName="id")
+     */
+    private $dir;
+
+    /**
+     * Set dir
+     *
+     * @param Acme\ModelBundle\Entity\Dir $dir
+     * @return PositionDir
+     */
+    public function setDir(\Acme\ModelBundle\Entity\Dir $dir)
+    {
+        $this->dir = $dir;
+        return $this;
+    }
+
+    /**
+     * Get dir
+     *
+     * @return Acme\ModelBundle\Entity\Dir 
+     */
+    public function getDir()
+    {
+        return $this->dir;
+    }
 
     /**
      * Get id

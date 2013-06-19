@@ -2,6 +2,7 @@
 namespace Acme\ModelBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -29,8 +30,7 @@ class Dir extends Model {
     protected $pid;
 
     /**
-     * @ORM\OneToOne(targetEntity="Position")
-     * @ORM\JoinColumn(name="pos_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="PositionDir", mappedBy="dir")
      */
     protected $position;
 
@@ -126,20 +126,21 @@ class Dir extends Model {
     /**
      * Set position
      *
-     * @param Acme\ModelBundle\Entity\Position $position
+     * @param Acme\ModelBundle\Entity\PositionDir $position
      * @return Dir
      */
-    public function setPosition(\Acme\ModelBundle\Entity\Position $position = null)
+    public function setPosition(\Acme\ModelBundle\Entity\PositionDir $position)
     {
         $this->position = $position;
-    
+        $this->position->setDir($this);
+
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return Acme\ModelBundle\Entity\Position 
+     * @return Acme\ModelBundle\Entity\PositionDir 
      */
     public function getPosition()
     {
@@ -148,6 +149,7 @@ class Dir extends Model {
 
     public function toArray() {
         $array = parent::toArray();
+        $p = $this->getPosition();
         $array['position'] = $this->getPosition()->toArray();
         unset($array['notes']);
         return $array;

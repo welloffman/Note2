@@ -2,7 +2,7 @@ parameters:
     database_driver: pdo_mysql
     database_host: localhost
     database_port: null
-    database_name: note
+    database_name: note2
     database_user: note
     database_password: zras2ACW2BSep2A5
     mailer_transport: smtp
