@@ -1,7 +1,19 @@
+var ROOT = "/app_dev.php/notes/";
+
 $(function() {
 	var data = $(j).data('jdata');
 	var app = new AppRouter(data);
-	Backbone.history.start();
+	Backbone.history.start({pushState: true, root: ROOT});
+
+	// Перехват ссылок - роутов бекбона для предотвращения перезагрузки всей страницы
+	$("body").on('click', '.js-route', function(e) {
+		e.preventDefault();
+      	app.navigate( $(this).attr('href'), true );
+	});
+
+	$("body").on('route', function(e) {
+		app.navigate( e.route, true );
+	});
 
 	// Инициализация текстового редактора
 	tinyMCE.init({
@@ -18,7 +30,7 @@ $(function() {
 		width: '100%',
 		theme_advanced_font_sizes: '14pt,18pt,24pt,32pt,40pt,60pt',
 		font_size_style_values: '14pt,18pt,24pt,32pt,40pt,60pt',
-		content_css: '../css/tiny_custom.css'
+		content_css: '/../css/tiny_custom.css'
 	});
 
 	function getCurDirId() {
@@ -36,6 +48,8 @@ var AppRouter = Backbone.Router.extend({
 		"": "openDir",
 		"dir/:dir_id": "openDir",
 		"dir/:dir_id/note/:note_id": "openNote",
+		"add_dir": "addDir",
+		"dir/:dir_id/add_dir": "addDir",
 		"add_note": "addNote",
 		"dir/:dir_id/add_note": "addNote"
 	},
@@ -57,7 +71,6 @@ var AppRouter = Backbone.Router.extend({
 			self.nav_list_view.options.cur_dir_id = options.dir_id;
 			$(".js-nav-list").html( self.nav_list_view.render().el );
 			self.nav_list_view.bindEvents();
-			//if(self.note) self.note.updateModel({});
 		});
 	},
 
@@ -79,12 +92,21 @@ var AppRouter = Backbone.Router.extend({
 		this.note.fetch();
 	},
 
+	addDir: function(dir_id) {
+		if(!dir_id || dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id);
+
+		var editor = new Editor({type: 'dir', entity: new Dir({pid: dir_id})});
+		var editor_view = new EditorView({model: editor, className: "editor"});
+		$(".js-note").html( editor_view.render().el );
+		return false;
+	},
+
 	addNote: function(dir_id) {
 		if(!dir_id || dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id);
 
 		tinyMCE.execCommand('mceRemoveControl', false, "mce");
 
-		var editor = new Editor({type: 'note', entity: new Note({parent_dir: dir_id})});
+		var editor = new Editor({type: 'note', entity: new Note({pid: dir_id})});
 		var editor_view = new EditorView({model: editor, className: "editor"});
 		$(".js-note").html( editor_view.render().el );
 

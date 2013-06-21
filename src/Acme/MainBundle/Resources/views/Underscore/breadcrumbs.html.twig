@@ -2,7 +2,7 @@
 	<script type="text/template" id="breadcrumbs">
 		<ul class="breadcrumbs">
 			<%_.each(data.items, function(item){%>
-				<li><a href="#dir/<%=item.id%>"><%=item.title%></a></li>
+				<li><a class="js-route" href="#dir/<%=item.id%>"><%=item.title%></a></li>
 				<li><p class='divider'>/</p></li>
 			<%});%>
 			<li><p><%=data.cur_dir_title%></p></li>

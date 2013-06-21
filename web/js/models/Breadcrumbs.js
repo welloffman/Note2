@@ -14,8 +14,7 @@ var Breadcrumbs = Backbone.Model.extend({
 
 		this.sync = function(method, model, options) {
 			if(method == 'read') {
-				$.post('./get_breadcrumbs', {dir_id: options.dir_id}, function(resp) {
-					resp = $.parseJSON(resp);
+				$.post(ROOT + 'get_breadcrumbs', {dir_id: options.dir_id}, function(resp) {
 					if(resp.success) {
 						self.set('items', resp.items);
 						self.set('cur_dir_title', resp.dir_title);

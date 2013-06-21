@@ -3,15 +3,15 @@
 		<ul class="nav-list js-sortable">
 			<%_.each(elements, function(element){%>
 				
-				<li class="<%=element.type%>" data-id="<%=element.id%>">
+				<li class="<%=element.type%>" data-id="<%=element.entity.get('id')%>">
 					<div class="drag tmb"><div class="thumb"></div></div>
 					<div class="ico tmb"><div class="thumb"></div></div>
 					<%if(element.type == 'dir') {%>
-						<a href="#dir/<%=element.id%>">
+						<a class="js-route" href="#dir/<%=element.entity.get('id')%>">
 					<%} else {%>
-						<a href="#dir/<%=cur_dir_id%>/note/<%=element.id%>">
+						<a class="js-route" href="#dir/<%=cur_dir_id%>/note/<%=element.entity.get('id')%>">
 					<%}%>
-						<%=element.title%>
+						<%=element.entity.get('title')%>
 					</a>
 					<div class="check-box<%if(element.selected){%> active<%}%>"></a>				
 				</li>

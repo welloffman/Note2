@@ -2,13 +2,11 @@
  * Модель для элемента списка разделов и записей
  */
 var NavListItem = Backbone.Model.extend({
-	
+
 	defaults: function() {
 		return {
-			id: undefined,
-			title: undefined,
 			type: undefined,
-			position: undefined,
+			entity: undefined,
 			selected: false
 		};
 	},
@@ -19,14 +17,14 @@ var NavListItem = Backbone.Model.extend({
 		this.is_changed = false;
 
 		this.getPos = function() {
-			var position = self.get('position');
+			var position = self.get('entity').get('position');
 			return position.pos;
 		}
 
 		this.setPos = function(pos) {
-			var new_position = self.get('position');
+			var new_position = self.get('entity').get('position');
 			new_position.pos = pos;
-			self.set({position: new_position});
+			self.get('entity').set({position: new_position});
 		}
 	}
 });
@@ -44,30 +42,35 @@ var NavList = Backbone.Collection.extend({
 			if(method == 'save') {
 				var items = [];
 				self.each(function(el) {
-					if(el.is_changed) items.push(el.toJSON());
+					if(el.is_changed) items.push( _.extend(el.get('entity').toJSON(), {'type': el.get('type')}) );
 				});
 
 				if(items.length > 0) {
-					$.post('./save_nav_list', {items: items}, function(resp) {
-						resp = $.parseJSON(resp);
+					$.post(ROOT + 'save_nav_list', {items: items}, function(resp) {
 						if(resp.success) clearChangeHistory();
 						else alert('Ошибка соединения с сервером!');
 					});
 				}
 			} else if(method == 'read') {
-				$.post('./get_nav_list', {dir_id: options.dir_id}, function(resp) {
-					resp = $.parseJSON(resp);
-					if(resp.success) self.reset(resp.items, {dir_id: resp.dir_id});
-					else alert('Ошибка соединения с сервером!');
+				$.post(ROOT + 'get_nav_list', {dir_id: options.dir_id}, function(resp) {
+					if(resp.success) {
+						var data = _.map(resp.items, function(item) {
+							if(item.type == 'dir') item.entity = new Dir(item.entity);
+							else if(item.type == 'note') item.entity = new Note(item.entity);
+							return item;
+						});
+						self.reset(data, {dir_id: resp.dir_id});
+					} else {
+						alert('Ошибка соединения с сервером!');
+					}
 				});
 			} else if(method == 'delete') {
 				var selected = self.where({'selected': true});
 				var data = { dir: [], note: [] };
 				_.each(selected, function(item) {
-					data[ item.get('type') ].push(item.get('id'));
+					data[ item.get('type') ].push(item.get('entity').get('id'));
 				});
-				$.post('./delete', {ids: data}, function(resp) {
-					resp = $.parseJSON(resp);
+				$.post(ROOT + 'delete', {ids: data}, function(resp) {
 					if(resp.success) self.remove(selected);
 					else alert('Ошибка соединения с сервером!');
 				});
@@ -83,7 +86,7 @@ var NavList = Backbone.Collection.extend({
 			$.each(ui.item.parent().children(), function(i, el){
 				var elem = $(el);
 
-				var model = self.where({type: elem.attr("class"), id: elem.data("id")})[0];
+				var model = getByEntity(elem.attr("class"), elem.data("id"));
 				if(model.getPos() != i) {
 					model.setPos(i);
 					model.is_changed = true;
@@ -99,17 +102,28 @@ var NavList = Backbone.Collection.extend({
 		 * @param  int id Ид пункта
 		 */
 		this.toggle = function(type, id) {
-			var array = self.where({'type': type, 'id': id});
-			var model = array.length ? array[0] : null;
-			if(model) {
-				model.set('selected', !model.get('selected'));
-			}
+			var model = getByEntity(type, id);
+			if(model) model.set('selected', !model.get('selected'));
 		};
 
 		function clearChangeHistory() {
 			self.each(function(item) {
 				item.is_changed = false;
 			});
+		}
+
+		/**
+		 * Возвращает NavListItem по id сущности и типу
+		 * @param string type
+		 * @param int id
+		 * @return NavListItem | null
+		 */
+		function getByEntity(type, id) {
+			var items = self.where({type: type});
+			for(var i in items) {
+				if(items[i].get('entity').get('id') == id) return items[i]; 
+			}
+			return null;
 		}
 	}
 });

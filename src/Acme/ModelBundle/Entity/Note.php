@@ -26,6 +26,11 @@ class Note extends Model
     protected $title;
 
     /**
+     * @ORM\Column(type="integer", length=10)
+     */
+    protected $pid;
+
+    /**
      * @ORM\Column(name="content", type="text")
      */
     protected $content;
@@ -72,6 +77,29 @@ class Note extends Model
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set pid
+     *
+     * @param integer $pid
+     * @return Note
+     */
+    public function setPid($pid)
+    {
+        $this->pid = $pid;
+    
+        return $this;
+    }
+
+    /**
+     * Get pid
+     *
+     * @return integer 
+     */
+    public function getPid()
+    {
+        return $this->pid;
     }
 
     /**
@@ -125,7 +153,9 @@ class Note extends Model
         return array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
-            'content' => $this->getContent()
+            'pid' => $this->getPid(),
+            'content' => $this->getContent(),
+            'position' => $this->getPosition()->toArray()
         );
     }
 

@@ -8,22 +8,25 @@ var EditorView = Backbone.View.extend({
 	},
 
 	save: function() {
-		tinyMCE.activeEditor.save();
 		if(this.model.get("type") == "note") {
-			this.model.get("entity").updateModel({title: $(this.el).find('.js-title').val(), content: $("#mce").val()});
+			tinyMCE.activeEditor.save();
+			var new_data = {title: $(this.el).find('.js-title').val(), content: $("#mce").val()};
 		} else {
-			this.model.get("entity").updateModel({title: $(this.el).find('.js-title').val()});
+			new_data = {title: $(this.el).find('.js-title').val()};
 		}
-		this.model.get("entity").save();
-		$(this.el).find('.js-cancel').trigger('click');
+		var cancel_button = $(this.el).find('.js-cancel');
+		this.model.get("entity").save(new_data, {success: function() {
+			cancel_button.trigger('click');
+		}});
+		
 	},
 
 	cancel: function() {
 		tinyMCE.execCommand('mceRemoveControl', false, "mce");
 		this.remove();
-		var cur_dir = this.model.get('entity').get('parent_dir');
-		if(cur_dir) location.hash = "dir/" + cur_dir;
-		else location.hash = "";
+		var cur_dir = this.model.get('entity').get('pid');
+		var hash = cur_dir ? "#dir/" + cur_dir : "";
+		$("body").trigger( {type: "route", route: hash} );
 	},
 
 	initialize: function() {

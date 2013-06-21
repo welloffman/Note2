@@ -10,6 +10,7 @@ use Acme\ModelBundle\Entity\PositionNote;
 use Acme\MainBundle\Helper\NavList;
 use Acme\MainBundle\Helper\Breadcrumbs;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class NotesController extends Controller {
 
@@ -45,7 +46,7 @@ class NotesController extends Controller {
 
     /**
      * Получение post запроса и сохранение пришдших элементов в базу
-     * @return Response
+     * @return JsonResponse
      */
     public function saveNavListAction() {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -87,13 +88,12 @@ class NotesController extends Controller {
         }
         $em->flush();
 
-
-        return new Response( json_encode(array('success' => true)) );
+        return new JsonResponse(array('success' => true));
     }
 
     /**
      * Получение записи
-     * @return Response
+     * @return JsonResponse
      */
     public function getNoteAction() {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -103,19 +103,22 @@ class NotesController extends Controller {
         $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
         $note_rep = $em->getRepository('AcmeModelBundle:Note');
 
-        //todo: Сделать проверку доступа пользователя к записи
-
         $note = $note_rep->find( $request->get('note_id') );
+        if(!$note) return new Response( json_encode(array('success' => false)) );
+
         $parent_dir = $note->getDir();
+
+        if($parent_dir->getUserId() != $user->getId()) return new Response( json_encode(array('success' => false)) );
+
         $note_data = $note->toArray();
         $note_data['parent_dir'] = $parent_dir->getId();
 
-        return new Response( json_encode(array( 'success' => true, 'note' => $note_data)) );
+        return new JsonResponse(array('success' => true, 'note' => $note_data));
     }
 
     /**
      * Получение списка записей и разделов
-     * @return Response
+     * @return JsonResponse
      */
     public function getNavListAction() {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -134,16 +137,16 @@ class NotesController extends Controller {
         $nav_list = new NavList($this->getDoctrine(), $user);
         $nav_list->fetch($dir)->sortByPosition();
 
-        return new Response( json_encode(array( 
+        return new JsonResponse(array( 
             'success' => true, 
             'items' => $nav_list->getItems(), 
             'dir_id' => $dir->getId()
-        )) );
+        ));
     }
 
     /**
      * Получение хлебных крошек
-     * @return Response
+     * @return JsonResponse
      */
     public function getBreadcrumbsAction() {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -162,16 +165,59 @@ class NotesController extends Controller {
             $dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
         }
 
-        return new Response( json_encode(array( 
+        return new JsonResponse(array( 
             'success' => true,
             'dir_title' => $dir->getTitle(), 
             'items' => $breadcrumbs->getData() 
-        )) );
+        ));
+    }
+
+    /**
+     * Сохранение Раздела (Если раздел существует, позицию и родительский раздел не перезаписывает)
+     * @return JsonResponse
+     */
+    public function saveDirAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->get('request')->request;
+        $dir_data = $request->get('dir_data');
+        
+        $em = $this->getDoctrine()->getManager();
+        $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
+        
+        if(isset($dir_data["id"])) {
+            $dir = $dir_rep->findOneBy( array('id' => $dir_data['id'], 'user_id' => $user->getId()) );
+            if(!$dir) return new Response( json_encode(array('success' => false)) );
+        } else {
+            if(isset($dir_data['pid'])) {
+                $parent_dir = $dir_rep->findOneBy( array('id' => $dir_data['pid'], 'user_id' => $user->getId()) );
+            } else {
+                $parent_dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
+            }
+            if(!$parent_dir) return new Response( json_encode(array('success' => false)) );
+
+            $nav_list = new NavList($this->getDoctrine(), $user);
+
+            $position = new PositionDir();
+            $position->setPos($nav_list->fetch($parent_dir)->getLength() + 1);
+            $em->persist($position);
+
+            $dir = new Dir();
+            $dir->setPosition($position);
+            $dir->setPid($parent_dir->getId());
+            $dir->setUserId($user->getId());
+        }
+
+        $dir->setTitle($dir_data['title']);
+
+        $em->persist($dir);
+        $em->flush();
+
+        return new JsonResponse(array('success' => true));
     }
 
     /**
      * Сохранение записи (Если запись существует, позицию и родительский раздел не перезаписывает)
-     * @return Response
+     * @return JsonResponse
      */
     public function saveNoteAction() {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -182,14 +228,14 @@ class NotesController extends Controller {
         $note_rep = $em->getRepository('AcmeModelBundle:Note');
 
         if(isset($note_data["id"])) {
-            $note = $note_rep->find($item['id']);
+            $note = $note_rep->find($note_data['id']);
             if(!$note) return new Response( json_encode(array('success' => false)) );
         }
         else {
             $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
 
-            if(isset($note_data['parent_dir'])) {
-                $dir = $dir_rep->findOneBy( array('id' => $note_data['parent_dir'], 'user_id' => $user->getId()) );
+            if(isset($note_data['pid'])) {
+                $dir = $dir_rep->findOneBy( array('id' => $note_data['pid'], 'user_id' => $user->getId()) );
             } else {
                 $dir = $dir_rep->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
             }
@@ -212,7 +258,7 @@ class NotesController extends Controller {
         $em->persist($note);
         $em->flush();
 
-        return new Response( json_encode(array('success' => true)) );
+        return new JsonResponse(array('success' => true));
     }
 
     public function deleteAction() {
@@ -223,10 +269,6 @@ class NotesController extends Controller {
         $note_rep = $em->getRepository('AcmeModelBundle:Note');
 
         $ids = array_merge( array('dir'=>array(), 'note'=>array()), $request->get('ids') );
-        foreach($ids['dir'] as $dir_id) {
-            $dir = $dir_rep->findOneBy( array('id' => $dir_id, 'user_id' => $user->getId()) );
-            if($dir) $em->remove($dir);
-        }
         foreach($ids['note'] as $note_id) {
             $note = $note_rep->find($note_id);
             if($note) {
@@ -234,8 +276,13 @@ class NotesController extends Controller {
                 if($parent_dir->getUserId() == $user->getId()) $em->remove($note);
             }
         }
+        foreach($ids['dir'] as $dir_id) {
+            $dir = $dir_rep->findOneBy( array('id' => $dir_id, 'user_id' => $user->getId()) );
+            if($dir) $em->remove($dir);
+        }
         $em->flush();
 
-        return new Response( json_encode(array('success' => true)) );
+        return new JsonResponse(array('success' => true));
     }
+
 }

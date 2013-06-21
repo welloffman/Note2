@@ -35,15 +35,14 @@ class NavList {
             $children_dirs = $dir_rep->findJoinedPosition($dir->getId(), $this->user->getId());
 
             foreach($children_dirs as $d) {
-                $item = $d->toArray();
+                $item['entity'] = $d->toArray();
                 $item['type'] = 'dir';
                 $this->items[] = $item;
             }
 
             $notes_collection = $em->getRepository('AcmeModelBundle:Note')->findJoinedPosition($dir->getId());
             foreach($notes_collection as $n) {
-                $item = $n->toArray();
-                $item['position'] = $n->getPosition()->toArray();
+                $item['entity'] = $n->toArray();
                 $item['type'] = 'note';
                 $this->items[] = $item;
             }
@@ -58,8 +57,8 @@ class NavList {
      */
     public function sortByPosition() {
         usort($this->items, function($a, $b) {
-            if($a['position']['pos'] > $b['position']['pos']) return 1;
-            else if($a['position']['pos'] < $b['position']['pos']) return -1;
+            if($a['entity']['position']['pos'] > $b['entity']['position']['pos']) return 1;
+            else if($a['entity']['position']['pos'] < $b['entity']['position']['pos']) return -1;
             else return 0;
         });
 
