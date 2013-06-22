@@ -2,12 +2,14 @@
 	<script type="text/template" id="editor">
 		<h2>Заголовок</h2>
 		<div class="editor_title">
-			<input class="js-title" type="text" <%if(item.entity.title) {%>value="<%=item.entity.title%>"<%}%> />
+			<input class="js-title" type="text" <%if(item.entity.get('title')) {%>value="<%=item.entity.get('title')%>"<%}%> />
 		</div>
 		<%if(item.type == "note") {%>
 			<h2>Текст записи</h2>
 			<form method="post">
-			    <textarea id="mce"></textarea>
+			    <textarea id="mce">
+			    	<%if(item.entity.get('content')) {%><%=item.entity.get('content')%><%}%>
+			    </textarea>
 			</form>
 		<%}%>
 		<div class="editor_footer">

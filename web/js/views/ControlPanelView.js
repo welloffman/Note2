@@ -3,7 +3,8 @@
  */
 var ControlPanelView = Backbone.View.extend({
 	events: {
-		'click .cp-delete': function() { $('body').trigger('cp-delete'); return false; }
+		'click .cp-delete': function() { $('body').trigger('cp-delete'); return false; },
+		'click .cp-edit': function() { $('body').trigger('cp-edit'); return false; }
 	},
 
 	initialize: function() {

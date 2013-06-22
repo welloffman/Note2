@@ -62,7 +62,7 @@ class Dir extends Model {
      */
     public function setUserId($userId)
     {
-        $this->user_id = $userId;
+        $this->user_id = (int)$userId;
     
         return $this;
     }
@@ -85,8 +85,8 @@ class Dir extends Model {
      */
     public function setTitle($title)
     {
+        $title = trim(strip_tags($title));
         $this->title = $title ? $title : "Новый раздел";
-    
         return $this;
     }
 
@@ -108,7 +108,7 @@ class Dir extends Model {
      */
     public function setPid($pid)
     {
-        $this->pid = $pid;
+        $this->pid = (int)$pid;
     
         return $this;
     }

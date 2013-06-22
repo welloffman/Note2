@@ -64,7 +64,8 @@ class Note extends Model
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $title = trim(strip_tags($title));
+        $this->title = $title ? $title : 'Новая запись';
     
         return $this;
     }
@@ -87,7 +88,7 @@ class Note extends Model
      */
     public function setPid($pid)
     {
-        $this->pid = $pid;
+        $this->pid = (int)$pid;
     
         return $this;
     }
@@ -110,9 +111,7 @@ class Note extends Model
      */
     public function setContent($content)
     {
-        //todo: использовать htmlentities() и html_entity_decode()
-        $this->content = $content;
-    
+        $this->content = trim(strip_tags($content, '<strong><em><span><p><address><pre><h1><h2><h3><h4><h5><h6><br><ul><ol><li><a><div>'));
         return $this;
     }
 

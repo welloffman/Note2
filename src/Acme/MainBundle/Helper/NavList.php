@@ -43,6 +43,7 @@ class NavList {
             $notes_collection = $em->getRepository('AcmeModelBundle:Note')->findJoinedPosition($dir->getId());
             foreach($notes_collection as $n) {
                 $item['entity'] = $n->toArray();
+                unset($item['entity']['content']);
                 $item['type'] = 'note';
                 $this->items[] = $item;
             }

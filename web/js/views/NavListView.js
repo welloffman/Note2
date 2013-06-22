@@ -42,10 +42,6 @@ var NavListView = Backbone.View.extend({
 			return false;	
 		});
 
-		$('body').on('cp-delete', function(){
-			self.collection.sync('delete');
-		});
-
 		this.collection.bind('remove', function() {
 			$(".js-nav-list").html( self.render().el );
 		});

@@ -60,6 +60,7 @@ var NavList = Backbone.Collection.extend({
 							return item;
 						});
 						self.reset(data, {dir_id: resp.dir_id});
+						if(typeof options.callback == "function") options.callback();
 					} else {
 						alert('Ошибка соединения с сервером!');
 					}
@@ -70,10 +71,14 @@ var NavList = Backbone.Collection.extend({
 				_.each(selected, function(item) {
 					data[ item.get('type') ].push(item.get('entity').get('id'));
 				});
-				$.post(ROOT + 'delete', {ids: data}, function(resp) {
-					if(resp.success) self.remove(selected);
-					else alert('Ошибка соединения с сервером!');
-				});
+				if(data.dir.length > 0 || data.note.length > 0) {
+					$.post(ROOT + 'delete', {ids: data}, function(resp) {
+						if(resp.success) {
+							self.remove(selected);
+						}
+						else alert('Удалить данные не удалось');
+					});
+				}
 			}
 		};
 
@@ -82,11 +87,11 @@ var NavList = Backbone.Collection.extend({
 		 * @param  Event e Объект события
 		 * @param  JqueryObject ui Элемент переместившегося блока (от jquery sortable)
 		 */
-		this.savePositions = function(e, ui) { 
+		this.savePositions = function(e, ui) {
 			$.each(ui.item.parent().children(), function(i, el){
 				var elem = $(el);
 
-				var model = getByEntity(elem.attr("class"), elem.data("id"));
+				var model = self.getByEntity(elem.attr("class"), elem.data("id"));
 				if(model.getPos() != i) {
 					model.setPos(i);
 					model.is_changed = true;
@@ -102,15 +107,9 @@ var NavList = Backbone.Collection.extend({
 		 * @param  int id Ид пункта
 		 */
 		this.toggle = function(type, id) {
-			var model = getByEntity(type, id);
+			var model = self.getByEntity(type, id);
 			if(model) model.set('selected', !model.get('selected'));
 		};
-
-		function clearChangeHistory() {
-			self.each(function(item) {
-				item.is_changed = false;
-			});
-		}
 
 		/**
 		 * Возвращает NavListItem по id сущности и типу
@@ -118,12 +117,23 @@ var NavList = Backbone.Collection.extend({
 		 * @param int id
 		 * @return NavListItem | null
 		 */
-		function getByEntity(type, id) {
+		this.getByEntity = function(type, id) {
 			var items = self.where({type: type});
 			for(var i in items) {
 				if(items[i].get('entity').get('id') == id) return items[i]; 
 			}
 			return null;
+		}
+
+		this.getFirstSelected = function() {
+			var selected = self.where({'selected': true});
+			return selected.length ? selected[0] : null;
+		}
+
+		function clearChangeHistory() {
+			self.each(function(item) {
+				item.is_changed = false;
+			});
 		}
 	}
 });

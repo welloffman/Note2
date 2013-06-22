@@ -22,3 +22,63 @@ logout:
 registration: 
     pattern: /registration
     defaults: { _controller: AcmeSecurityBundle:Default:registration }
+
+
+
+get_note:
+    pattern:  /notes/get_note
+    defaults: { _controller: AcmeMainBundle:Notes:getNote }
+    requirements:
+        _method:  POST
+
+get_dir:
+    pattern:  /notes/get_dir
+    defaults: { _controller: AcmeMainBundle:Notes:getDir }
+    requirements:
+        _method:  POST
+
+get_nav_list: 
+    pattern: /notes/get_nav_list
+    defaults: { _controller: AcmeMainBundle:Notes:getNavList }
+    requirements:
+        _method: POST
+
+get_breadcrumbs:
+    pattern: /notes/get_breadcrumbs
+    defaults: { _controller: AcmeMainBundle:Notes:getBreadcrumbs }
+    requirements: 
+        _method: POST
+
+save_note:
+    pattern: /notes/save_note
+    defaults: { _controller: AcmeMainBundle:Notes:saveNote }
+    requirements: 
+        _method: POST
+
+save_dir:
+    pattern: /notes/save_dir
+    defaults: { _controller: AcmeMainBundle:Notes:saveDir }
+    requirements: 
+        _method: POST
+
+save_nav_list:
+    pattern:  /notes/save_nav_list
+    defaults: { _controller: AcmeMainBundle:Notes:saveNavList }
+    requirements:
+        _method:  POST
+
+delete:
+    pattern: /notes/delete
+    defaults: { _controller: AcmeMainBundle:Notes:delete }
+    requirements: 
+        _method: POST
+
+notes: 
+    pattern: /notes/
+    defaults: { _controller: AcmeMainBundle:Notes:index}
+
+notes_hash: 
+    pattern: /notes/{hash}
+    defaults: { _controller: AcmeMainBundle:Notes:index}
+    requirements:
+        hash: "[\w\/]{0,}"

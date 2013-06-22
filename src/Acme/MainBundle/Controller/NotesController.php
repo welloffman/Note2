@@ -74,7 +74,7 @@ class NotesController extends Controller {
                 $note = $note_rep->find($item['id']);
                 if($note && $note->getDir()->getUserId() == $user->getId()) {
                     $note->setTitle($item['title']);
-                    $note->setContent($item['content']);
+                    if(isset($item['content'])) $note->setContent($item['content']);
 
                     $position = $note->getPosition();
                     $position->setPos($item['position']['pos']);
@@ -114,6 +114,23 @@ class NotesController extends Controller {
         $note_data['parent_dir'] = $parent_dir->getId();
 
         return new JsonResponse(array('success' => true, 'note' => $note_data));
+    }
+
+    /**
+     * Получение раздела
+     * @return JsonResponse
+     */
+    public function getDirAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->get('request')->request;
+
+        $em = $this->getDoctrine()->getManager();
+        $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
+
+        $dir = $dir_rep->findOneBy( array('id' => $request->get('dir_id'), 'user_id' => $user->getId()) );
+        if(!$dir) return new Response( json_encode(array('success' => false)) );
+
+        return new JsonResponse(array('success' => true, 'dir' => $dir->toArray()));
     }
 
     /**
@@ -268,7 +285,10 @@ class NotesController extends Controller {
         $dir_rep = $em->getRepository('AcmeModelBundle:Dir');
         $note_rep = $em->getRepository('AcmeModelBundle:Note');
 
-        $ids = array_merge( array('dir'=>array(), 'note'=>array()), $request->get('ids') );
+        $id_list = $request->get('ids');
+        if( !isset($id_list) ) return new JsonResponse(array('success' => false));
+
+        $ids = array_merge( array('dir'=>array(), 'note'=>array()), $id_list );
         foreach($ids['note'] as $note_id) {
             $note = $note_rep->find($note_id);
             if($note) {

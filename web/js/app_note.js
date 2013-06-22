@@ -15,6 +15,23 @@ $(function() {
 		app.navigate( e.route, true );
 	});
 
+
+	$('body').on('cp-delete', function(){
+		app.nav_list.sync('delete');
+	});
+
+	$('body').on('cp-edit', function(){
+		var path;
+		var cur_item = app.nav_list.getFirstSelected();
+		if(cur_item) {
+			path = 'edit/' + cur_item.get('type') + '/' + cur_item.get('entity').get('id');
+		} else if(app.note) {
+			path = 'edit/note/' + app.note.get('id');
+		}
+
+		if(path) app.navigate( path, true );
+	});
+
 	// Инициализация текстового редактора
 	tinyMCE.init({
 		mode: "none",
@@ -51,7 +68,9 @@ var AppRouter = Backbone.Router.extend({
 		"add_dir": "addDir",
 		"dir/:dir_id/add_dir": "addDir",
 		"add_note": "addNote",
-		"dir/:dir_id/add_note": "addNote"
+		"dir/:dir_id/add_note": "addNote",
+		"edit/dir/:dir_id" : "editDir",
+		"edit/note/:note_id" : "editNote"
 	},
 
 	initialize: function(options) {
@@ -74,22 +93,27 @@ var AppRouter = Backbone.Router.extend({
 		});
 	},
 
-	openDir: function(dir_id) {
+	openDir: function(dir_id, callback) {
 		if(!dir_id) dir_id = null;
 		this.breadcrumbs.fetch({dir_id: dir_id});
-		this.nav_list.fetch({dir_id: dir_id});
+		this.nav_list.fetch({dir_id: dir_id, callback: callback});
 		this.control_panel.set('cur_dir_id', dir_id);
+
+		if(this.note_view) this.note_view.remove();
+		if(this.note) this.note = undefined;
 	},
 
 	openNote: function(dir_id, note_id) {
-		if(dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id);
+		var self = this;
+		function open() { 
+			var item = self.nav_list.getByEntity('note', note_id);
+			self.note = item.get('entity');
+			self.note_view = new NoteView({model: self.note, className: 'note-content'});
+			self.note.fetch();
+		}
 
-		this.note = new Note({
-			id: note_id
-		});
-
-		this.note_view = new NoteView({model: this.note, className: 'note-content'});
-		this.note.fetch();
+		if(dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id, open);
+		else open();
 	},
 
 	addDir: function(dir_id) {
@@ -112,5 +136,49 @@ var AppRouter = Backbone.Router.extend({
 
 		tinyMCE.execCommand("mceAddControl", false, "mce");
 		return false;
+	},
+
+	editNote: function(note_id) {
+		var self = this;
+		function open() {
+			var note = self.nav_list.getByEntity('note', note_id).get('entity');
+			note.fetch({callback: function() {
+				tinyMCE.execCommand('mceRemoveControl', false, "mce");
+				var editor = new Editor({type: 'note', entity: note});
+				var editor_view = new EditorView({model: editor, className: "editor"});
+				$(".js-note").html( editor_view.render().el );
+				tinyMCE.execCommand("mceAddControl", false, "mce");
+			}});
+		}
+
+		// Если открываем редактирование по прямой ссылке - сначала получаем объект записи, 
+		// потом по pid открываем родительский раздел и потом открываем редактор
+		if(!this.nav_list_view.options.cur_dir_id) {
+			var n = new Note({id: note_id});
+			n.fetch({callback: function() {
+				self.openDir(n.get('pid'), open);
+			}});
+		}
+		else open();
+	},
+
+	editDir: function(dir_id) {
+		var self = this;
+		function open() {
+			var dir = self.nav_list.getByEntity('dir', dir_id).get('entity');
+			var editor = new Editor({type: 'dir', entity: dir});
+			var editor_view = new EditorView({model: editor, className: "editor"});
+			$(".js-note").html( editor_view.render().el );
+		}
+
+		// Если открываем редактирование по прямой ссылке - сначала получаем объект раздела, 
+		// потом по pid открываем родительский раздел и потом открываем редактор
+		if(!this.nav_list_view.options.cur_dir_id) {
+			var d = new Dir({id: dir_id});
+			d.fetch({callback: function() { 
+				self.openDir(d.get('pid'), open); 
+			}});
+		}
+		else open();
 	}
 });

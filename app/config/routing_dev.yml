@@ -55,6 +55,12 @@ get_note:
     requirements:
         _method:  POST
 
+get_dir:
+    pattern:  /notes/get_dir
+    defaults: { _controller: AcmeMainBundle:Notes:getDir }
+    requirements:
+        _method:  POST
+
 get_nav_list: 
     pattern: /notes/get_nav_list
     defaults: { _controller: AcmeMainBundle:Notes:getNavList }
