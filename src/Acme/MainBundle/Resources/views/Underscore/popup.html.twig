@@ -1,0 +1,14 @@
+{%raw%}
+	<script type="text/template" id="popup">
+		<div class="popup-wrap">
+			<h2 class="popup-header"><%if(data.title) {%><%=data.title%><%}%></h2>
+			<div class="popup-content">
+				<p><%if(data.content) {%><%=data.content%><%}%></p>
+			</div>
+			<div class="popup-buttons">
+				<input class="btn cancel js-ok" type="button" value="Да" />
+				<input class="btn js-cancel" type="button" value="Нет" />
+			</div>
+		</div>
+	</script>
+{%endraw%}

@@ -1,4 +1,4 @@
-var ROOT = "/app_dev.php/notes/";
+var ROOT = location.href.match(/app_dev\.php/) ? "/app_dev.php/notes/" : "/notes/";
 
 $(function() {
 	var data = $(j).data('jdata');
@@ -15,9 +15,18 @@ $(function() {
 		app.navigate( e.route, true );
 	});
 
-
 	$('body').on('cp-delete', function(){
-		app.nav_list.sync('delete');
+		if(!app.nav_list.getFirstSelected()) return false;
+
+		var popup = new PopupView({
+			model: new Popup({
+				title: 'Удаление раздела или записи', 
+				content: 'Восстановить удаляемый контент будет невозможно. Вы подтверждаете удаление?',
+				ok_callback: function() { app.nav_list.sync('delete'); }
+			}),
+			className: 'popup'
+		});
+		$("body").append(popup.render().el);
 	});
 
 	$('body').on('cp-edit', function(){
@@ -54,6 +63,11 @@ $(function() {
 		return app.nav_list_view.options.cur_dir_id;
 	}
 });
+
+
+
+
+
 
 var AppRouter = Backbone.Router.extend({
 	nav_list: undefined,
@@ -108,7 +122,7 @@ var AppRouter = Backbone.Router.extend({
 		function open() { 
 			var item = self.nav_list.getByEntity('note', note_id);
 			self.note = item.get('entity');
-			self.note_view = new NoteView({model: self.note, className: 'note-content'});
+			self.note_view = new NoteView({model: self.note, className: 'note'});
 			self.note.fetch();
 		}
 
