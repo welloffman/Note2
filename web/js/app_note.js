@@ -15,14 +15,32 @@ $(function() {
 		app.navigate( e.route, e.replace );
 	});
 
+	$("body").on('route_force', function(e) {
+		var route = e.route ? e.route : Backbone.history.fragment;
+		Backbone.history.fragment = null;
+		app.nav_list_view.options.cur_dir_id = undefined;
+		app.navigate(route, true);
+	});
+
 	$('body').on('cp-delete', function(){
-		if(!app.nav_list.getFirstSelected()) return false;
+		if(!app.nav_list.getFirstSelected() && !app.note) return false;
 
 		var popup = new PopupView({
 			model: new Popup({
 				title: 'Удаление раздела или записи', 
 				content: 'Восстановить удаляемый контент будет невозможно. Вы подтверждаете удаление?',
-				ok_callback: function() { app.nav_list.sync('delete'); }
+				ok_callback: function() {
+					if(!app.nav_list.getFirstSelected() && app.note) app.nav_list.getByEntity('note', app.note.get('id')).set({'selected': true});
+					app.nav_list.sync('delete', app.nav_list, { 
+						callback: function() {
+							if(app.note && !app.nav_list.getByEntity('note', app.note.get('id'))) {
+								app.navigate('dir/' + app.note.get('pid'), false);
+								app.note_view.remove();
+								app.note = undefined;
+							}
+						} 
+					}); 
+				}
 			}),
 			className: 'popup'
 		});
@@ -39,23 +57,6 @@ $(function() {
 		}
 
 		if(path) app.navigate( path, true );
-	});
-
-	/**
-	 * Обновление страницы, в событие должно быть передано в параметре item объект NavListItem
-	 */
-	$('body').on('refresh', function(e) {
-		if(!e.item) return false;
-
-		var hash = "#dir/" + e.item.get('entity').get('pid');
-		app.openDir(e.item.get('entity').get('pid'), function() {
-			if(e.item.get('type') == 'note') {
-				app.openNote(e.item.get('entity').get('pid'), e.item.get('entity').get('id'));
-				hash += "/note/" + e.item.get('entity').get('id');
-			}
-			app.navigate(hash, false);
-			$("html,body").animate({scrollTop: 0}, 0);
-		});
 	});
 
 	// Инициализация текстового редактора
@@ -75,8 +76,4 @@ $(function() {
 		font_size_style_values: '14pt,18pt,24pt,32pt,40pt,60pt',
 		content_css: '/../css/tiny_custom.css'
 	});
-
-	function getCurDirId() {
-		return app.nav_list_view.options.cur_dir_id;
-	}
 });

@@ -17,15 +17,23 @@ var EditorView = Backbone.View.extend({
 		}
 		var cancel_button = $(this.el).find('.js-cancel');
 		this.model.get("entity").save(new_data, {silent: true, callback: function() {
-			self.cancel();
+			self.cancel(null, true);
 		}});
-		
 	},
 
-	cancel: function() {
+	cancel: function(e, refresh) {
 		tinyMCE.execCommand('mceRemoveControl', false, "mce");
 		this.remove();
-		$("body").trigger({type: "refresh", item: this.model});
+		var route = 'dir/' + this.model.get("entity").get("pid");
+		
+		if(this.model.get('type') == 'note' && this.model.get("entity").get("id")) {
+			route += '/note/' + this.model.get("entity").get("id");
+			refresh = true;
+		}
+		
+		if(refresh) $("body").trigger({type: "route_force", route: route});
+		else $("body").trigger({type: "route", route: route, replace: false});
+		$("html,body").animate({scrollTop: 0}, 0);
 	},
 
 	initialize: function() {
@@ -40,5 +48,9 @@ var EditorView = Backbone.View.extend({
 			this.delegateEvents();
 			return this;
 		}
+
+		this.model.bind('remove', function() {
+			self.remove();
+		});
 	}
 });

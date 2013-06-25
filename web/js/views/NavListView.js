@@ -44,10 +44,12 @@ var NavListView = Backbone.View.extend({
 
 		this.collection.bind('remove', function() {
 			$(".js-nav-list").html( self.render().el );
+			self.bindEvents();
 		});
 
-		this.collection.bind('change', function() {
+		/*this.collection.bind('change', function() {
 			$(".js-nav-list").html( self.render().el );
-		});
+			this.bindEvents();
+		});*/
 	}
 });

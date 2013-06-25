@@ -73,19 +73,24 @@ var NoteRouter = Backbone.Router.extend({
 	},
 
 	addNote: function(dir_id) {
-		if(!dir_id || dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id);
+		function open() {
+			tinyMCE.execCommand('mceRemoveControl', false, "mce");
 
-		tinyMCE.execCommand('mceRemoveControl', false, "mce");
+			var editor = new NavListItem({type: 'note', entity: new Note({pid: dir_id})});
+			var editor_view = new EditorView({model: editor, className: "editor"});
+			$(".js-note").html( editor_view.render().el );
 
-		var editor = new NavListItem({type: 'note', entity: new Note({pid: dir_id})});
-		var editor_view = new EditorView({model: editor, className: "editor"});
-		$(".js-note").html( editor_view.render().el );
-
-		tinyMCE.execCommand("mceAddControl", false, "mce");
+			tinyMCE.execCommand("mceAddControl", false, "mce");
+		}
+		if(!dir_id || dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id, open);
+		else open();
 		return false;
 	},
 
 	editNote: function(note_id) {
+		if(this.note_view) this.note_view.remove();
+		if(this.note) this.note = undefined;
+
 		var self = this;
 		function open() {
 			var note = self.nav_list.getByEntity('note', note_id);
@@ -109,6 +114,9 @@ var NoteRouter = Backbone.Router.extend({
 	},
 
 	editDir: function(dir_id) {
+		if(this.note_view) this.note_view.remove();
+		if(this.note) this.note = undefined;
+
 		var self = this;
 		function open() {
 			var dir = self.nav_list.getByEntity('dir', dir_id);

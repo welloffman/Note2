@@ -13,7 +13,7 @@ var NoteView = Backbone.View.extend({
 		}
 
 		this.model.bind('change', function() {
-			$(".js-note").html( self.render().el );
+			$(".js-note").html(self.render().el);
 		});
 	}
 });

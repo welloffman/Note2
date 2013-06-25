@@ -75,6 +75,7 @@ var NavList = Backbone.Collection.extend({
 					$.post(ROOT + 'delete', {ids: data}, function(resp) {
 						if(resp.success) {
 							self.remove(selected);
+							if(typeof options.callback == "function") options.callback();
 						}
 						else alert('Удалить данные не удалось');
 					});
