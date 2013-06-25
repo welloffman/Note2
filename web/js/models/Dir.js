@@ -27,10 +27,18 @@ var Dir = Backbone.Model.extend({
 			}
 			else if(method == 'create' || method == 'update') {
 				$.post(ROOT + "save_dir", {dir_data: self.toJSON()}, function(resp) {
-					if(resp.success) options.success();
+					if(resp.success) {
+						if(typeof options.callback == "function") options.callback();
+					}
 					else alert('Не удалось создать раздел');
 				});
 			}
+		}
+
+		this.forceChange = function() {
+			var tmp = self.get('title');
+			self.set({title: ''}, {silent: true});
+			self.set({title: tmp});
 		}
 	},
 

@@ -8,6 +8,7 @@ var EditorView = Backbone.View.extend({
 	},
 
 	save: function() {
+		var self = this;
 		if(this.model.get("type") == "note") {
 			tinyMCE.activeEditor.save();
 			var new_data = {title: $(this.el).find('.js-title').val(), content: $("#mce").val()};
@@ -15,8 +16,8 @@ var EditorView = Backbone.View.extend({
 			new_data = {title: $(this.el).find('.js-title').val()};
 		}
 		var cancel_button = $(this.el).find('.js-cancel');
-		this.model.get("entity").save(new_data, {success: function() {
-			cancel_button.trigger('click');
+		this.model.get("entity").save(new_data, {silent: true, callback: function() {
+			self.cancel();
 		}});
 		
 	},
@@ -24,9 +25,7 @@ var EditorView = Backbone.View.extend({
 	cancel: function() {
 		tinyMCE.execCommand('mceRemoveControl', false, "mce");
 		this.remove();
-		var cur_dir = this.model.get('entity').get('pid');
-		var hash = cur_dir ? "#dir/" + cur_dir : "";
-		$("body").trigger( {type: "route", route: hash} );
+		$("body").trigger({type: "refresh", item: this.model});
 	},
 
 	initialize: function() {
