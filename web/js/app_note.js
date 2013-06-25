@@ -2,7 +2,7 @@ var ROOT = location.href.match(/app_dev\.php/) ? "/app_dev.php/notes/" : "/notes
 
 $(function() {
 	var data = $(j).data('jdata');
-	app = new NoteRouter(data);
+	var app = new NoteRouter(data);
 	Backbone.history.start({pushState: true, root: ROOT});
 
 	// Перехват ссылок - роутов бекбона для предотвращения перезагрузки всей страницы
@@ -46,14 +46,16 @@ $(function() {
 	 */
 	$('body').on('refresh', function(e) {
 		if(!e.item) return false;
-		app.openDir(e.item.get('entity').get('pid'), function() {
-			if(e.item.get('type') == 'note') app.openNote(e.item.get('entity').get('pid'), e.item.get('entity').get('id'));
-		});
 
 		var hash = "#dir/" + e.item.get('entity').get('pid');
-		if(e.item.get('type') == 'note') hash += "/note/" + e.item.get('entity').get('id');
-		app.navigate(hash, false);
-		$("html,body").animate({scrollTop: 0}, 0);
+		app.openDir(e.item.get('entity').get('pid'), function() {
+			if(e.item.get('type') == 'note') {
+				app.openNote(e.item.get('entity').get('pid'), e.item.get('entity').get('id'));
+				hash += "/note/" + e.item.get('entity').get('id');
+			}
+			app.navigate(hash, false);
+			$("html,body").animate({scrollTop: 0}, 0);
+		});
 	});
 
 	// Инициализация текстового редактора

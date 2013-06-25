@@ -275,7 +275,7 @@ class NotesController extends Controller {
         $em->persist($note);
         $em->flush();
 
-        return new JsonResponse(array('success' => true));
+        return new JsonResponse( array('success' => true, 'id' => $note->getId()) );
     }
 
     public function deleteAction() {

@@ -47,7 +47,7 @@ var NoteRouter = Backbone.Router.extend({
 		this.control_panel.set('cur_dir_id', dir_id);
 
 		if(this.note_view) this.note_view.remove();
-		//if(this.note) this.note = undefined;
+		if(this.note) this.note = undefined;
 	},
 
 	openNote: function(dir_id, note_id) {
@@ -66,7 +66,7 @@ var NoteRouter = Backbone.Router.extend({
 	addDir: function(dir_id) {
 		if(!dir_id || dir_id != this.nav_list_view.options.cur_dir_id) this.openDir(dir_id);
 
-		var editor = new Editor({type: 'dir', entity: new Dir({pid: dir_id})});
+		var editor = new NavListItem({type: 'dir', entity: new Dir({pid: dir_id})});
 		var editor_view = new EditorView({model: editor, className: "editor"});
 		$(".js-note").html( editor_view.render().el );
 		return false;
@@ -77,7 +77,7 @@ var NoteRouter = Backbone.Router.extend({
 
 		tinyMCE.execCommand('mceRemoveControl', false, "mce");
 
-		var editor = new Editor({type: 'note', entity: new Note({pid: dir_id})});
+		var editor = new NavListItem({type: 'note', entity: new Note({pid: dir_id})});
 		var editor_view = new EditorView({model: editor, className: "editor"});
 		$(".js-note").html( editor_view.render().el );
 

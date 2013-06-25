@@ -29,6 +29,7 @@ var Note = Backbone.Model.extend({
 			else if(method == 'create' || method == 'update') {
 				$.post(ROOT + "save_note", {note_data: self.toJSON()}, function(resp) {
 					if(resp.success) {
+						model.set({'id': resp.id});
 						if(typeof options.callback == "function") options.callback();
 					}
 					else alert('Не удалось создать запись');
