@@ -4,7 +4,8 @@
 var EditorView = Backbone.View.extend({
 	events: {
 		'click .js-save': 'save',
-		'click .js-cancel': 'cancel'
+		'click .js-cancel': 'cancel',
+		'keypress .js-title' : 'keypress'
 	},
 
 	save: function() {
@@ -36,6 +37,10 @@ var EditorView = Backbone.View.extend({
 		$("html,body").animate({scrollTop: 0}, 0);
 	},
 
+	keypress: function(e) {
+		if(e.which == 13) this.save();
+	},
+
 	initialize: function() {
 		var self = this;
 
@@ -52,5 +57,9 @@ var EditorView = Backbone.View.extend({
 		this.model.bind('remove', function() {
 			self.remove();
 		});
+
+		this.focus = function() {
+			$(this.el).find('.js-title').focus();
+		}
 	}
 });

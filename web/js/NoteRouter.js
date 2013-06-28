@@ -69,6 +69,7 @@ var NoteRouter = Backbone.Router.extend({
 		var editor = new NavListItem({type: 'dir', entity: new Dir({pid: dir_id})});
 		var editor_view = new EditorView({model: editor, className: "editor"});
 		$(".js-note").html( editor_view.render().el );
+		editor_view.focus();
 		return false;
 	},
 
@@ -79,6 +80,7 @@ var NoteRouter = Backbone.Router.extend({
 			var editor = new NavListItem({type: 'note', entity: new Note({pid: dir_id})});
 			var editor_view = new EditorView({model: editor, className: "editor"});
 			$(".js-note").html( editor_view.render().el );
+			editor_view.focus();
 
 			tinyMCE.execCommand("mceAddControl", false, "mce");
 		}
@@ -98,6 +100,7 @@ var NoteRouter = Backbone.Router.extend({
 				tinyMCE.execCommand('mceRemoveControl', false, "mce");
 				var editor_view = new EditorView({model: note, className: "editor"});
 				$(".js-note").html( editor_view.render().el );
+				editor_view.focus();
 				tinyMCE.execCommand("mceAddControl", false, "mce");
 			}});
 		}
@@ -122,6 +125,7 @@ var NoteRouter = Backbone.Router.extend({
 			var dir = self.nav_list.getByEntity('dir', dir_id);
 			var editor_view = new EditorView({model: dir, className: "editor"});
 			$(".js-note").html( editor_view.render().el );
+			editor_view.focus();
 		}
 
 		// Если открываем редактирование по прямой ссылке - сначала получаем объект раздела, 
