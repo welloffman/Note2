@@ -97,6 +97,12 @@ delete:
     requirements: 
         _method: POST
 
+paste:
+    pattern: /notes/paste
+    defaults: { _controller: AcmeMainBundle:Notes:paste }
+    requirements: 
+        _method: POST
+
 notes: 
     pattern: /notes/
     defaults: { _controller: AcmeMainBundle:Notes:index}

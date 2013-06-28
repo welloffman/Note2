@@ -3,6 +3,7 @@ var ROOT = location.href.match(/app_dev\.php/) ? "/app_dev.php/notes/" : "/notes
 $(function() {
 	var data = $(j).data('jdata');
 	var app = new NoteRouter(data);
+	var copy_paste = new CopyPaste();
 	Backbone.history.start({pushState: true, root: ROOT});
 
 	// Перехват ссылок - роутов бекбона для предотвращения перезагрузки всей страницы
@@ -57,6 +58,24 @@ $(function() {
 		}
 
 		if(path) app.navigate( path, true );
+	});
+
+	$('body').on('cp-copy', function(){
+		copy_paste.set({ 'items': app.nav_list.where({'selected': true}) });
+		copy_paste.set({ 'action_type': 'copy' });
+	});
+
+	$('body').on('cp-cut', function(){
+		copy_paste.set({ 'items': app.nav_list.where({'selected': true}) });
+		copy_paste.set({ 'action_type': 'cut' });
+	});
+
+	$('body').on('cp-paste', function(){
+		copy_paste.save({'target_dir': app.nav_list_view.options.cur_dir_id}, {callback: 
+			function() {
+				app.nav_list.fetch({dir_id: app.nav_list_view.options.cur_dir_id});
+			}
+		});
 	});
 
 	// Инициализация текстового редактора

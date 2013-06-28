@@ -9,6 +9,7 @@ use Acme\ModelBundle\Entity\PositionDir;
 use Acme\ModelBundle\Entity\PositionNote;
 use Acme\MainBundle\Helper\NavList;
 use Acme\MainBundle\Helper\Breadcrumbs;
+use Acme\MainBundle\Helper\Paster;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -303,6 +304,27 @@ class NotesController extends Controller {
         $em->flush();
 
         return new JsonResponse(array('success' => true));
+    }
+
+    public function pasteAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $request = $this->get('request')->request;
+
+        if($request->get('target_dir')) $dir = $this->getDoctrine()->getRepository('AcmeModelBundle:Dir')->findOneBy( array('id' => (int)$request->get('target_dir'), "user_id" => $user->getId()) );
+        else $dir = $this->getDoctrine()->getRepository('AcmeModelBundle:Dir')->findOneBy( array('pid' => null, "user_id" => $user->getId()) );
+        
+        if(!$dir) return new JsonResponse(array('success' => false));
+        $target_dir = $dir;
+
+        $paster = new Paster($this->getDoctrine(), $user, $request->get('action_type'), $target_dir);
+
+        foreach($request->get('items') as $item) {
+            $paster->paste($item);
+        }
+
+        if(count($paster->getErrors())) $result = array('success' => false, 'errors' => $paster->getErrors());
+        else $result = array('success' => true);
+        return new JsonResponse($result);
     }
 
 }

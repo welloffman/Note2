@@ -7,7 +7,8 @@ var Popup = Backbone.Model.extend({
 		return {
 			title: undefined,
 			content: undefined,
-			ok_callback: undefined
+			ok_callback: undefined,
+			type: 'dialog'
 		};
 	}
 });

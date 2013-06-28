@@ -180,4 +180,8 @@ class Note extends Model
     {
         return $this->position;
     }
+
+    public function getType() {
+        return 'note';
+    }
 }

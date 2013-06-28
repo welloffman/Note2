@@ -187,4 +187,8 @@ class Dir extends Model {
     {
         return $this->notes;
     }
+
+    public function getType() {
+        return 'dir';
+    }
 }

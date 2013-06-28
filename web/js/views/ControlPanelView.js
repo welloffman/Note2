@@ -3,8 +3,36 @@
  */
 var ControlPanelView = Backbone.View.extend({
 	events: {
-		'click .cp-delete': function() { $('body').trigger('cp-delete'); return false; },
-		'click .cp-edit': function() { $('body').trigger('cp-edit'); return false; }
+		'click .cp-delete': 'delete',
+		'click .cp-edit': 'edit',
+		'click .cp-copy': 'copy',
+		'click .cp-cut': 'cut',
+		'click .cp-paste': 'paste'
+	},
+
+	delete: function() { 
+		$('body').trigger('cp-delete'); 
+		return false; 
+	},
+
+	edit: function() { 
+		$('body').trigger('cp-edit'); 
+		return false; 
+	},
+
+	copy: function() {
+		$('body').trigger('cp-copy'); 
+		return false;
+	},
+
+	cut: function() {
+		$('body').trigger('cp-cut'); 
+		return false;
+	},
+
+	paste: function() {
+		$('body').trigger('cp-paste'); 
+		return false;
 	},
 
 	initialize: function() {
