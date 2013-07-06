@@ -44,26 +44,38 @@ class DefaultController extends Controller {
     public function registrationAction() {
         $error = null;
 
-        $req = $this->getRequest();
-        $username = $req->request->get('username');
-        $password = $req->request->get('password');
-        $email = $req->request->get('email');
+        $req = $this->getRequest()->request;
+        
+        $username = $req->get('username');
+        $password = $req->get('password');
+        $email = $req->get('email');
 
-        if($username || $password || $email) {
-            $user = new User();
-            $user->setUsername($username);
+        if($req->get('process')) {
+            if(!$username) {
+                $error = array('message' => 'Введите имя пользователя');
+            } else if(strlen($password) < 6) {
+                $error = array('message' => 'Введите пароль не менее 6-ти символов');
+            } else if( $this->getDoctrine()->getManager()->getRepository('AcmeModelBundle:User')->findOneBy(array('username' => $username)) ) {
+                $error = array('message' => 'Такое имя пользователя уже существует');
+            } else if( $this->getDoctrine()->getManager()->getRepository('AcmeModelBundle:User')->findOneBy(array('email' => $email)) ) {
+                $error = array('message' => 'Такой Email уже используется');
+            } else {
+                $user = new User();
+                $user->setUsername($username);
 
-            $factory = $this->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($user);
-            $enc_password = $encoder->encodePassword($password, $user->getSalt());
-            $user->setPassword($enc_password);
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($user);
+                $enc_password = $encoder->encodePassword($password, $user->getSalt());
+                $user->setPassword($enc_password);
 
-            $user->setEmail($email);
-            $user->setCreated(new \DateTime());
+                $user->setEmail($email);
+                $user->setCreated(new \DateTime());
 
-            $em = $this->getDoctrine()->getEntityManager();
-            $em->persist($user);
-            $em->flush();
+                $em = $this->getDoctrine()->getEntityManager();
+                $em->persist($user);
+                $em->flush();
+                return $this->redirect($this->generateUrl('login'));
+            }
         }
 
         return $this->render(
