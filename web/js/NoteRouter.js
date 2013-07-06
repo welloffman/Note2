@@ -7,6 +7,7 @@ var NoteRouter = Backbone.Router.extend({
 	nav_list_view: undefined,
 	note_view: undefined,
 	note: undefined,
+	editor_view: undefined,
 
 	routes: {
 		"": "openDir",
@@ -48,6 +49,10 @@ var NoteRouter = Backbone.Router.extend({
 
 		if(this.note_view) this.note_view.remove();
 		if(this.note) this.note = undefined;
+		if(this.editor_view) {
+			tinyMCE.execCommand('mceRemoveControl', false, "mce");
+			this.editor_view.remove();
+		}
 	},
 
 	openNote: function(dir_id, note_id) {
@@ -68,9 +73,9 @@ var NoteRouter = Backbone.Router.extend({
 
 		var pid = dir_id ? dir_id : this.nav_list_view.options.cur_dir_id;
 		var editor = new NavListItem({type: 'dir', entity: new Dir({pid: pid})});
-		var editor_view = new EditorView({model: editor, className: "editor"});
-		$(".js-note").html( editor_view.render().el );
-		editor_view.focus();
+		this.editor_view = new EditorView({model: editor, className: "editor"});
+		$(".js-note").html( this.editor_view.render().el );
+		this.editor_view.focus();
 		return false;
 	},
 
@@ -81,9 +86,9 @@ var NoteRouter = Backbone.Router.extend({
 
 			var pid = dir_id ? dir_id : self.nav_list_view.options.cur_dir_id;
 			var editor = new NavListItem({type: 'note', entity: new Note({pid: pid})});
-			var editor_view = new EditorView({model: editor, className: "editor"});
-			$(".js-note").html( editor_view.render().el );
-			editor_view.focus();
+			self.editor_view = new EditorView({model: editor, className: "editor"});
+			$(".js-note").html( self.editor_view.render().el );
+			self.editor_view.focus();
 
 			tinyMCE.execCommand("mceAddControl", false, "mce");
 		}
@@ -101,9 +106,9 @@ var NoteRouter = Backbone.Router.extend({
 			var note = self.nav_list.getByEntity('note', note_id);
 			note.get('entity').fetch({callback: function() {
 				tinyMCE.execCommand('mceRemoveControl', false, "mce");
-				var editor_view = new EditorView({model: note, className: "editor"});
-				$(".js-note").html( editor_view.render().el );
-				editor_view.focus();
+				self.editor_view = new EditorView({model: note, className: "editor"});
+				$(".js-note").html( self.editor_view.render().el );
+				self.editor_view.focus();
 				tinyMCE.execCommand("mceAddControl", false, "mce");
 			}});
 		}
@@ -126,9 +131,9 @@ var NoteRouter = Backbone.Router.extend({
 		var self = this;
 		function open() {
 			var dir = self.nav_list.getByEntity('dir', dir_id);
-			var editor_view = new EditorView({model: dir, className: "editor"});
-			$(".js-note").html( editor_view.render().el );
-			editor_view.focus();
+			self.editor_view = new EditorView({model: dir, className: "editor"});
+			$(".js-note").html( self.editor_view.render().el );
+			self.editor_view.focus();
 		}
 
 		// Если открываем редактирование по прямой ссылке - сначала получаем объект раздела, 
