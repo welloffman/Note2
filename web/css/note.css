@@ -971,6 +971,17 @@ body {
 .note .note-content em {
   font-style: italic;
 }
+.note .note-content p {
+  margin-bottom: 10px;
+  line-height: 150%;
+  word-break: break-all;
+}
+.note .note-content a {
+  color: #0e90d2;
+}
+.note .note-content a:hover {
+  text-decoration: none;
+}
 .popup {
   position: fixed;
   top: 0;
