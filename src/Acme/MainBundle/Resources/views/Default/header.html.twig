@@ -5,6 +5,7 @@
 			{%if is_granted('ROLE_USER')%}
 				--><li><a href="{{path('acme_main_homepage')}}" class="nav-icon" title="На главную"><span class="icon-home"></span> </a></li><!--
 				--><li><a href="{{path('notes')}}" title="Блокнот">Блокнот</a></li><!--
+				--><li><a href="{{path('profile')}}" title="Профиль">Профиль</a></li><!--
 				--><li><a href="{{path('logout')}}" title="Выход">Выход</a></li><!--
 			{%else%}
 				--><li><a href="{{path('registration')}}" title="Регистрация">Регистрация</a></li><!--

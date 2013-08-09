@@ -112,3 +112,7 @@ notes_hash:
     defaults: { _controller: AcmeMainBundle:Notes:index}
     requirements:
         hash: "[\w\/]{0,}"
+
+profile: 
+    pattern: /profile/
+    defaults: { _controller: AcmeMainBundle:Profile:index}

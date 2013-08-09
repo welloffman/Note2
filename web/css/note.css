@@ -302,6 +302,27 @@ body {
   /* IE6-7 hasLayout */
 
 }
+.dark_inputs input {
+  padding: 0 10px;
+  width: 300px;
+  height: 40px;
+  color: #bbb;
+  text-shadow: 1px 1px 1px #000;
+  background: rgba(0, 0, 0, 0.16);
+  border: 0;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.06);
+}
+.dark_inputs input:-webkit-autofill {
+  background: rgba(0, 0, 0, 0.16) !important;
+  color: #bbb !important;
+}
+.dark_inputs input:focus {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.1);
+  outline: 0;
+}
 .dark_form {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 15px;
@@ -521,6 +542,79 @@ body {
   width: 25px;
   height: 19px;
   background: url("/img/arrow2.png") 0 0 no-repeat;
+}
+.profile_form_wrapper {
+  text-align: center;
+}
+.profile_form_wrapper .form-horizontal {
+  display: inline-block;
+  width: 625px;
+  text-align: left;
+  padding-top: 25px;
+  padding-left: 35px;
+}
+.profile_form_wrapper .form-horizontal .title-block {
+  color: #a8a7a8;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  padding-top: 40px;
+  padding-bottom: 5px;
+  font-weight: bold;
+  font-size: 14pt;
+  text-align: center;
+  margin-left: -35px;
+}
+.profile_form_wrapper .form-horizontal .control-group {
+  padding-top: 20px;
+}
+.profile_form_wrapper .form-horizontal .control-group .control-label {
+  color: #a8a7a8;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  width: 150px;
+  line-height: 40px;
+  padding-right: 10px;
+  text-align: right;
+  display: -moz-inline-stack;
+  /* FF2- */
+
+  display: inline-block;
+  *display: inline;
+  /* IE6-7 inline-block hack */
+
+  *zoom: 1;
+  /* IE6-7 hasLayout */
+
+}
+.profile_form_wrapper .form-horizontal .control-group .help-block {
+  color: #a8a7a8;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  padding-left: 165px;
+  padding-top: 5px;
+  font-size: 95%;
+}
+.profile_form_wrapper .form-horizontal .control-group input {
+  padding: 0 10px;
+  width: 300px;
+  height: 40px;
+  color: #bbb;
+  text-shadow: 1px 1px 1px #000;
+  background: rgba(0, 0, 0, 0.16);
+  border: 0;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.06);
+}
+.profile_form_wrapper .form-horizontal .control-group input:-webkit-autofill {
+  background: rgba(0, 0, 0, 0.16) !important;
+  color: #bbb !important;
+}
+.profile_form_wrapper .form-horizontal .control-group input:focus {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.1);
+  outline: 0;
+}
+.profile_form_wrapper .form-horizontal .form-actions {
+  padding-left: 163px;
+  padding-top: 20px;
 }
 .nav-list {
   background-color: white;
