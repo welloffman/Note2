@@ -890,6 +890,14 @@ body {
   background: url(../img/icon_trash.png) no-repeat;
   background-position: 27px 17px;
 }
+.control-panel .controls .search-bar {
+  vertical-align: top;
+}
+.control-panel .controls .search-bar div.wrap {
+  height: 43px;
+  display: inline-block;
+  padding: 17px 20px 0 20px;
+}
 .editor {
   padding: 15px 10px 0 25px;
 }

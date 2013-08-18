@@ -39,6 +39,15 @@ var NoteRouter = Backbone.Router.extend({
 			$(".js-nav-list").html( self.nav_list_view.render().el );
 			self.nav_list_view.bindEvents();
 		});
+
+		this.clearOpenedNote = function() {
+			if(this.note_view) this.note_view.remove();
+			if(this.note) this.note = undefined;
+			if(this.editor_view) {
+				tinyMCE.execCommand('mceRemoveControl', false, "mce");
+				this.editor_view.remove();
+			}
+		}
 	},
 
 	openDir: function(dir_id, callback) {
@@ -47,12 +56,7 @@ var NoteRouter = Backbone.Router.extend({
 		this.nav_list.fetch({dir_id: dir_id, callback: callback});
 		this.control_panel.set('cur_dir_id', dir_id);
 
-		if(this.note_view) this.note_view.remove();
-		if(this.note) this.note = undefined;
-		if(this.editor_view) {
-			tinyMCE.execCommand('mceRemoveControl', false, "mce");
-			this.editor_view.remove();
-		}
+		this.clearOpenedNote();
 	},
 
 	openNote: function(dir_id, note_id) {

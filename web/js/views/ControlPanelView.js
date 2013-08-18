@@ -7,7 +7,8 @@ var ControlPanelView = Backbone.View.extend({
 		'click .cp-edit': 'edit',
 		'click .cp-copy': 'copy',
 		'click .cp-cut': 'cut',
-		'click .cp-paste': 'paste'
+		'click .cp-paste': 'paste',
+		'click .cp-search': 'search'
 	},
 
 	delete: function() { 
@@ -32,6 +33,12 @@ var ControlPanelView = Backbone.View.extend({
 
 	paste: function() {
 		$('body').trigger('cp-paste'); 
+		return false;
+	},
+
+	search: function() {
+		var string = $(this.el).find('.js-search').val();
+		$('body').trigger('cp-search', [string]);
 		return false;
 	},
 

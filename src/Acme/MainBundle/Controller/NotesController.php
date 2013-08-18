@@ -327,4 +327,31 @@ class NotesController extends Controller {
         return new JsonResponse($result);
     }
 
+    public function searchAction() {
+        $request = $this->get('request')->request;
+        $user = $this->get('security.context')->getToken()->getUser();
+        $em = $this->getDoctrine()->getManager();
+        
+        $sphinx = new \SphinxClient();
+        $sphinx->SetServer('localhost', 9312);
+        $sphinx->SetMatchMode(SPH_MATCH_ALL);
+        $sphinx->SetSortMode(SPH_SORT_RELEVANCE);
+        $sphinx->SetFieldWeights(array ('title' => 20, 'content' => 10));
+        $sphinx->setFilter( 'user_id', array($user->getId()) );
+
+        $result = $sphinx->Query($request->get('string'), '*');
+
+        $items = array();
+        if ( $result === false ) { 
+            //$ids = "Query failed: " . $sphinx->GetLastError() . ".\n";
+        } else if(isset($result['matches'])) {
+            $ids = array_keys($result['matches']);
+            $notes = $em->getRepository('AcmeModelBundle:Note')->findByIds($ids);
+            foreach($notes as $n) {
+                $items[] = $n->toArray();
+            }
+        }
+
+        return new JsonResponse( array('success' => true, 'notes' => $items) );
+    }
 }

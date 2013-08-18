@@ -131,6 +131,20 @@ var NavList = Backbone.Collection.extend({
 			return selected.length ? selected[0] : null;
 		}
 
+		this.search = function(string) {
+			$.post(ROOT + 'search', {string: string}, function(resp) {
+				if(resp.success) {
+					var data = [];
+					_.each(resp.notes, function(item) {
+						data.push({entity: new Note(item), type: 'note'});
+					});
+					self.reset(data, {dir_id: undefined});
+				} else {
+					alert('Ошибка соединения с сервером!');
+				}
+			});
+		}
+
 		function clearChangeHistory() {
 			self.each(function(item) {
 				item.is_changed = false;

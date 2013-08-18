@@ -79,6 +79,12 @@ paste:
     requirements: 
         _method: POST
 
+search: 
+    pattern: /notes/search
+    defaults: { _controller: AcmeMainBundle:Notes:search}
+    requirements: 
+        _method: POST
+
 notes: 
     pattern: /notes/
     defaults: { _controller: AcmeMainBundle:Notes:index}

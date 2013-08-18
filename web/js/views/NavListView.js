@@ -19,7 +19,7 @@ var NavListView = Backbone.View.extend({
 
 		this.render = function() {
 			this.remove();
-			$(this.el).html(this.template( {elements: this.collection.toJSON(), cur_dir_id: this.options.cur_dir_id} ));
+			$(this.el).html(this.template( {elements: this.collection.toJSON()} ));
 			this.delegateEvents();
 			return this;
 		}

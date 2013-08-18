@@ -78,6 +78,11 @@ $(function() {
 		});
 	});
 
+	$('body').on('cp-search', function(e, string) {
+		app.nav_list.search(string);
+		app.clearOpenedNote();
+	});
+
 	// Инициализация текстового редактора
 	tinyMCE.init({
 		mode: "none",

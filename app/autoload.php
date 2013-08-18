@@ -13,4 +13,6 @@ if (!function_exists('intl_get_error_code')) {
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
+require_once __DIR__.'/../vendor/sphinx/sphinxapi.php';
+
 return $loader;

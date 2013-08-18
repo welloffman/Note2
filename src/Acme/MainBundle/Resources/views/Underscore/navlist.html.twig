@@ -9,7 +9,7 @@
 					<%if(element.type == 'dir') {%>
 						<a class="js-route" href="#dir/<%=element.entity.get('id')%>">
 					<%} else {%>
-						<a class="js-route" href="#dir/<%=cur_dir_id%>/note/<%=element.entity.get('id')%>">
+						<a class="js-route" href="#dir/<%=element.entity.get('pid')%>/note/<%=element.entity.get('id')%>">
 					<%}%>
 						<%=element.entity.get('title')%>
 					</a>

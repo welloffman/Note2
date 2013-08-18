@@ -25,4 +25,18 @@ class NoteRepository extends EntityRepository {
 	    }
 	}
 
+	/**
+	 * Получение Записей и их позиций по набору id
+	 * @param  int $ids id записей
+	 * @return array | null        
+	 */
+	public function findByIds($ids)
+	{
+		$query = $this->getEntityManager()->createQuery(' SELECT n, p FROM AcmeModelBundle:Note n JOIN n.position p WHERE n.id IN (' . implode(',', $ids) . ')');
+		try {
+			return $query->getResult();
+		} catch (\Doctrine\ORM\NoResultException $e) {
+			return null;
+		}
+	}
 }
