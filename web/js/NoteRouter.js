@@ -154,8 +154,10 @@ var NoteRouter = Backbone.Router.extend({
 
 	search: function(string) {
 		var self = this;
-		this.nav_list.search(decodeURI(string), function() {
+		var str = decodeURI(string);
+		this.nav_list.search(str, function() {
 			$(self.nav_list_view.el).find('.js-sortable').sortable("disable");
+			$(self.control_panel_view.el).find('.js-search').val(str);
 		});
 		this.clearOpenedNote();
 	}
