@@ -8,7 +8,8 @@ var ControlPanelView = Backbone.View.extend({
 		'click .cp-copy': 'copy',
 		'click .cp-cut': 'cut',
 		'click .cp-paste': 'paste',
-		'click .cp-search': 'search'
+		'click .cp-search': 'search',
+		'keypress .js-search' : 'keypress'
 	},
 
 	delete: function() { 
@@ -38,8 +39,12 @@ var ControlPanelView = Backbone.View.extend({
 
 	search: function() {
 		var string = $(this.el).find('.js-search').val();
-		$('body').trigger('cp-search', [string]);
+		if(string.length > 1) $('body').trigger('cp-search', [string]);
 		return false;
+	},
+
+	keypress: function(e) {
+		if(e.which == 13) this.search();
 	},
 
 	initialize: function() {

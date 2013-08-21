@@ -616,6 +616,70 @@ body {
   padding-left: 163px;
   padding-top: 20px;
 }
+.search-bar {
+  font-size: 0pt;
+  background-color: white;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 0 #ffffff;
+  -moz-box-shadow: 0 1px 0 #ffffff;
+  box-shadow: 0 1px 0 #ffffff;
+}
+.search-bar .search-field {
+  font-size: 11pt;
+  border-radius: 5px 0 0 5px;
+  background: url("../img/search-icon.png") 5px 4px no-repeat;
+  border: 1px solid #959595;
+  border-right: none;
+  margin: 0;
+  padding: 8px 3px 8px 33px;
+  width: 165px;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.search-bar .search-button {
+  font-size: 11pt;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #6ca2ba;
+  color: #31637a;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0;
+  padding: 8px;
+  text-shadow: 0 1px 0 #dfedf4;
+  -webkit-box-shadow: inset 0 1px 0 #dfedf4;
+  -moz-box-shadow: inset 0 1px 0 #dfedf4;
+  box-shadow: inset 0 1px 0 #dfedf4;
+  background-color: #a7cadb;
+  background-image: -moz-linear-gradient(top, #b0d2e3, #9abdcf);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b0d2e3), to(#9abdcf));
+  background-image: -webkit-linear-gradient(top, #b0d2e3, #9abdcf);
+  background-image: -o-linear-gradient(top, #b0d2e3, #9abdcf);
+  background-image: linear-gradient(to bottom, #b0d2e3, #9abdcf);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb0d2e3', endColorstr='#ff9abdcf', GradientType=0);
+}
+.search-bar .search-button:hover {
+  background-color: #b9d5e2;
+  background-image: -moz-linear-gradient(top, #c1dce9, #aecad8);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#c1dce9), to(#aecad8));
+  background-image: -webkit-linear-gradient(top, #c1dce9, #aecad8);
+  background-image: -o-linear-gradient(top, #c1dce9, #aecad8);
+  background-image: linear-gradient(to bottom, #c1dce9, #aecad8);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc1dce9', endColorstr='#ffaecad8', GradientType=0);
+}
+.search-bar .search-button:active {
+  background-color: #b6d1df;
+  background-image: -moz-linear-gradient(top, #aecad8, #c1dce9);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#aecad8), to(#c1dce9));
+  background-image: -webkit-linear-gradient(top, #aecad8, #c1dce9);
+  background-image: -o-linear-gradient(top, #aecad8, #c1dce9);
+  background-image: linear-gradient(to bottom, #aecad8, #c1dce9);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaecad8', endColorstr='#ffc1dce9', GradientType=0);
+}
 .nav-list {
   background-color: white;
   padding: 0;
@@ -796,13 +860,27 @@ body {
   background: -ms-linear-gradient(top, #f4f4f4 0%, #f3f3f3 50%, #efefef 51%, #eeeeee 100%);
   background: linear-gradient(top, #f4f4f4 0%, #f3f3f3 50%, #efefef 51%, #eeeeee 100%);
 }
-.control-panel .controls {
-  font-size: 0;
+.control-panel .cp-wrapper {
   background: url(../img/bg_control_panel.png);
+  position: relative;
+  height: 60px;
+}
+.control-panel .cp-wrapper .controls {
+  font-size: 0;
   border-left: 1px solid #e1e1e1;
   border-top: 1px solid white;
+  display: -moz-inline-stack;
+  /* FF2- */
+
+  display: inline-block;
+  *display: inline;
+  /* IE6-7 inline-block hack */
+
+  *zoom: 1;
+  /* IE6-7 hasLayout */
+
 }
-.control-panel .controls li {
+.control-panel .cp-wrapper .controls li {
   border-right: 1px solid #e1e1e1;
   border-left: 1px solid white;
   background: #f4f4f4;
@@ -822,7 +900,7 @@ body {
   /* IE6-7 hasLayout */
 
 }
-.control-panel .controls li:hover {
+.control-panel .cp-wrapper .controls li:hover {
   background: #eeeeee;
   background: -moz-linear-gradient(top, #eeeeee 0%, #efefef 50%, #f3f3f3 51%, #f4f4f4 100%);
   background: -webkit-linear-gradient(top, #eeeeee 0%, #efefef 50%, #f3f3f3 51%, #f4f4f4 100%);
@@ -830,7 +908,7 @@ body {
   background: -ms-linear-gradient(top, #eeeeee 0%, #efefef 50%, #f3f3f3 51%, #f4f4f4 100%);
   background: linear-gradient(top, #eeeeee 0%, #efefef 50%, #f3f3f3 51%, #f4f4f4 100%);
 }
-.control-panel .controls li:active {
+.control-panel .cp-wrapper .controls li:active {
   background: #eaeaea;
   background: -moz-linear-gradient(top, #eaeaea 0%, #e9e9e9 50%, #e6e6e6 51%, #e5e5e5 100%);
   background: -webkit-linear-gradient(top, #eaeaea 0%, #e9e9e9 50%, #e6e6e6 51%, #e5e5e5 100%);
@@ -838,15 +916,15 @@ body {
   background: -ms-linear-gradient(top, #eaeaea 0%, #e9e9e9 50%, #e6e6e6 51%, #e5e5e5 100%);
   background: linear-gradient(top, #eaeaea 0%, #e9e9e9 50%, #e6e6e6 51%, #e5e5e5 100%);
 }
-.control-panel .controls li:last-child {
+.control-panel .cp-wrapper .controls li:last-child {
   box-shadow: 1px 0 0 0 white;
   -moz-box-shadow: 1px 0 0 0 white;
   -webkit-box-shadow: 1px 0 0 0 white;
 }
-.control-panel .controls li .wrap {
+.control-panel .cp-wrapper .controls li .wrap {
   background: url(../img/bg_control_panel.png);
 }
-.control-panel .controls li .wrap a {
+.control-panel .cp-wrapper .controls li .wrap a {
   width: 80px;
   height: 60px;
   text-decoration: none;
@@ -862,41 +940,38 @@ body {
   /* IE6-7 hasLayout */
 
 }
-.control-panel .controls li .wrap a.cp-add-dir {
+.control-panel .cp-wrapper .controls li .wrap a.cp-add-dir {
   background: url(../img/icon_add_dir.png) no-repeat;
   background-position: 16px 11px;
 }
-.control-panel .controls li .wrap a.cp-add-note {
+.control-panel .cp-wrapper .controls li .wrap a.cp-add-note {
   background: url(../img/icon_add_note.png) no-repeat;
   background-position: 17px 17px;
 }
-.control-panel .controls li .wrap a.cp-edit {
+.control-panel .cp-wrapper .controls li .wrap a.cp-edit {
   background: url(../img/icon_edit.png) no-repeat;
   background-position: 17px 17px;
 }
-.control-panel .controls li .wrap a.cp-copy {
+.control-panel .cp-wrapper .controls li .wrap a.cp-copy {
   background: url(../img/icon_copy.png) no-repeat;
   background-position: 25px 16px;
 }
-.control-panel .controls li .wrap a.cp-cut {
+.control-panel .cp-wrapper .controls li .wrap a.cp-cut {
   background: url(../img/icon_cut.png) no-repeat;
   background-position: 23px 20px;
 }
-.control-panel .controls li .wrap a.cp-paste {
+.control-panel .cp-wrapper .controls li .wrap a.cp-paste {
   background: url(../img/icon_paste.png) no-repeat;
   background-position: 26px 14px;
 }
-.control-panel .controls li .wrap a.cp-delete {
+.control-panel .cp-wrapper .controls li .wrap a.cp-delete {
   background: url(../img/icon_trash.png) no-repeat;
   background-position: 27px 17px;
 }
-.control-panel .controls .search-bar {
-  vertical-align: top;
-}
-.control-panel .controls .search-bar div.wrap {
-  height: 43px;
-  display: inline-block;
-  padding: 17px 20px 0 20px;
+.control-panel .cp-wrapper .search-wrapper {
+  position: absolute;
+  top: 12px;
+  right: 25px;
 }
 .editor {
   padding: 15px 10px 0 25px;
