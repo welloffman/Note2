@@ -79,6 +79,12 @@ paste:
     requirements: 
         _method: POST
 
+search_hash: 
+    pattern: /notes/search/{hash}
+    defaults: { _controller: AcmeMainBundle:Notes:index}
+    requirements: 
+        hash: ".*"
+
 search: 
     pattern: /notes/search
     defaults: { _controller: AcmeMainBundle:Notes:search}
