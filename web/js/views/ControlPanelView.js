@@ -39,12 +39,14 @@ var ControlPanelView = Backbone.View.extend({
 
 	search: function() {
 		var string = $(this.el).find('.js-search').val();
-		if(string.length > 1) $('body').trigger('cp-search', [string]);
-		return false;
+		$(this.el).find('.cp-search').attr('href', '#search/' + string);
+		if(string.length < 3) {
+			return false;
+		}
 	},
 
 	keypress: function(e) {
-		if(e.which == 13) this.search();
+		if(e.which == 13) $(this.el).find('.cp-search').trigger('click');
 	},
 
 	initialize: function() {

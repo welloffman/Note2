@@ -131,7 +131,7 @@ var NavList = Backbone.Collection.extend({
 			return selected.length ? selected[0] : null;
 		}
 
-		this.search = function(string) {
+		this.search = function(string, callback) {
 			$.post(ROOT + 'search', {string: string}, function(resp) {
 				if(resp.success) {
 					var data = [];
@@ -139,6 +139,7 @@ var NavList = Backbone.Collection.extend({
 						data.push({entity: new Note(item), type: 'note'});
 					});
 					self.reset(data, {dir_id: undefined});
+					if(typeof callback == "function") callback();
 				} else {
 					alert('Ошибка соединения с сервером!');
 				}

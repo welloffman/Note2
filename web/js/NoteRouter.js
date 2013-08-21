@@ -17,8 +17,9 @@ var NoteRouter = Backbone.Router.extend({
 		"dir/:dir_id/add_dir": "addDir",
 		"add_note": "addNote",
 		"dir/:dir_id/add_note": "addNote",
-		"edit/dir/:dir_id" : "editDir",
-		"edit/note/:note_id" : "editNote"
+		"edit/dir/:dir_id": "editDir",
+		"edit/note/:note_id": "editNote",
+		"search/:string": "search"
 	},
 
 	initialize: function(options) {
@@ -149,5 +150,13 @@ var NoteRouter = Backbone.Router.extend({
 			}});
 		}
 		else open();
+	},
+
+	search: function(string) {
+		var self = this;
+		this.nav_list.search(string, function() {
+			$(self.nav_list_view.el).find('.js-sortable').sortable("disable");
+		});
+		this.clearOpenedNote();
 	}
 });

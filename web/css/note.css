@@ -648,6 +648,7 @@ body {
   margin: 0;
   padding: 8px;
   text-shadow: 0 1px 0 #dfedf4;
+  text-decoration: none;
   -webkit-box-shadow: inset 0 1px 0 #dfedf4;
   -moz-box-shadow: inset 0 1px 0 #dfedf4;
   box-shadow: inset 0 1px 0 #dfedf4;
