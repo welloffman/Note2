@@ -28,13 +28,9 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        login:
-            #pattern:  ^/demo/secured/login$
-
-            #pattern: ^/login
-            #security: false
-            pattern:    ^/$
-            anonymous:  ~
+        #login:
+            #pattern:    ^/$
+            #anonymous:  ~
 
         secured_area:
             pattern:    ^/

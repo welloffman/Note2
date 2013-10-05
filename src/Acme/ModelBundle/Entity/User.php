@@ -157,6 +157,10 @@ class User extends Model implements UserInterface {
         return array('ROLE_USER');
     }
 
+    public function isGranted($role) {
+        return in_array($role, $this->getRoles());
+    }
+
     public function eraseCredentials() {
 
     }

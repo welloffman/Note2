@@ -8,13 +8,9 @@ use Acme\ModelBundle\Entity\User;
 
 class DefaultController extends Controller {
 	public function indexAction() {
-		//$usr = $this->get('security.context')->getToken()->getAttributes();
-
-		//print_r( (int)$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') );
-		/*if( ){
+		if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
 			return $this->redirect($this->generateUrl('notes'));
-		}*/
-
+		}
 
 		$request = $this->getRequest();
 		$session = $request->getSession();
