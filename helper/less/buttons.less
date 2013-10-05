@@ -1,39 +1,58 @@
 .btn {
-	padding: 8px 20px;
-	border: 1px solid #1d7ad4;
-	border-bottom: 1px solid #0a457d;
-	border-radius: 4px;
-	font-weight: bold;
+	padding: 5px 20px 8px 20px;
+	border: 1px solid #2e41a4;
+	border-top-color: #3854b8;
+	border-bottom-color: #263596;
+	border-radius: 2px;
+	font-weight: normal;
 	font-size: 11pt;
+	font-family: Ubuntu, Verdana, Arial, sans-serif;
 	color: white;
-	text-shadow: 0 -1px 0 #2f80c3;
+	text-decoration: none;
+	text-shadow: 0 -1px 0 #3d59b9;
 	cursor: pointer;
+	line-height: 1;
 
-	.box-shadow(inset 0 1px 0 #7ad6ff);
-	#gradient.vertical(#5fbffa, #198af3);
+	/*.inline-block;*/
+	.box-shadow(inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.3));
+	#gradient.vertical(#5e87cd, #4664bd);
 
 	&:hover {
-		#gradient.vertical(#71c6fb, #198af3);
+		#gradient.vertical(#6995d3, #5072c8);
 	}
 	
 	&:active {
-		#gradient.vertical(#198af3, #5fbffa);
+		.box-shadow(inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,1));
+		#gradient.vertical(#5578c6, #4666ba);
 	}
 
 	&.cancel {
-		border: 1px solid #c04331;
-		border-bottom: 1px solid #55140a;
-		text-shadow: 0 -1px 0 #b2493f;
+		border: 1px solid #dc3d27;
+		text-shadow: 0 -1px 0 #dc422b;
 
-		.box-shadow(inset 0 1px 0 #f29ba0);
-		#gradient.vertical(#e97270, #e5412f);
+		#gradient.vertical(#e66543, #df4c31);
 
 		&:hover {
-			#gradient.vertical(#ec8886, #e5412f);
+			#gradient.vertical(#e9714b, #e4583a);
 		}
 		
 		&:active {
-			#gradient.vertical(#e5412f, #e97270);
+			#gradient.vertical(#e25b3c, #dd4c31);
+		}
+	}
+
+	&.green {
+		border: 1px solid #2e703b;
+		text-shadow: 0 -1px 0 #419256;
+
+		#gradient.vertical(#74bb93, #519d69);
+
+		&:hover {
+			#gradient.vertical(#81c3a0, #6abd8a);
+		}
+		
+		&:active {
+			#gradient.vertical(#68b185, #57a270);
 		}
 	}
 }

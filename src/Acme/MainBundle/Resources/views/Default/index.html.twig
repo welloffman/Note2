@@ -1,11 +1,28 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-	{% include 'AcmeMainBundle:Default:header.html.twig' %}
-	<div class="container">
-	<div class="row">
-		<div class="span12">
-			<h2 class="main_title">Блокнот для повседневных заметок.</h2>
+<div class="promo">
+	<div class="wrapper">
+		<div class="login-block">
+			 <form class="login-wrapper" method="post" action="{{ path('login_check') }}">
+				{% if error %}
+					<div class="err-msg">Неправильный логин или пароль</div>
+				{% endif %}
+				<input class="txt" name="_username" {% if last_username%}value="{{last_username}}"{% endif %} type="text" placeholder="Почта" />
+				<input class="txt" name="_password" type="password" value="" placeholder="Пароль" />
+				<input class="btn" type="submit" value="Войти" />
+			</form>
+		</div>
+		<div class="content">
+			<p class="promo1">Удобный, быстрый и простой блокнот</p>
+			<p class="promo2">теперь ваши заметки всегда будут под рукой</p>
+			<div class="register">
+				<input class="btn green"type="button" value="Регистрация" />
+			</div>
+			<img src="../img/i-book.png" class="promo-img" />
+		</div>
+		<div class="bottom">
+			<p class="promo3">Делайте заметки и записи, доступ к которым сможете получить с любого компьютера</p>
 		</div>
 	</div>
 </div>

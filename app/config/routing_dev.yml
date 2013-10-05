@@ -32,8 +32,8 @@ acme_main_homepage:
     defaults: { _controller: AcmeMainBundle:Default:index }
 
 login:
-    pattern:   /login
-    defaults:  { _controller: AcmeSecurityBundle:Default:login }
+    pattern:   /
+    defaults:  { _controller: AcmeMainBundle:Default:index }
 login_check:
     pattern:   /login_check
 logout:

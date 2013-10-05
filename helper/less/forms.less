@@ -25,7 +25,7 @@
 }
 
 .dark_form {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	/*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
 	font-size: 15px;
 	font-weight: 300;
 	color: #a8a7a8;
@@ -175,6 +175,8 @@
 
 .profile_form_wrapper {
 	text-align: center;
+	background: #373737 url("../img/bg.png") 0 0 repeat;
+	padding-bottom: 300px;
 
 	.form-horizontal {
 		display: inline-block;
@@ -233,6 +235,7 @@
 	.box-shadow(0 1px 0 white);
 
 	.search-field {
+		font-family: Ubuntu, Verdana, Arial, sans-serif;
 		font-size: 11pt;
 		border-radius: 5px 0 0 5px;
 		background: url("../img/search-icon.png") 5px 4px no-repeat;
@@ -243,6 +246,7 @@
 		width: 165px;
 		outline: 0;
 		height: 17px;
+		line-height: 1.2;
 
 		.box-shadow(inset 0 1px 2px rgba(0,0,0,0.2));
 	}
@@ -252,7 +256,6 @@
 		border-radius: 0 5px 5px 0;
 		border: 1px solid #6ca2ba;
 		color: #31637a;
-		font-weight: bold;
 		cursor: pointer;
 		margin: 0;
 		padding: 8px;
@@ -260,7 +263,6 @@
 		text-decoration: none;
 		height: 17px;
 		vertical-align: top;
-		line-height: 1.2;
 		outline: none;
 
 		.inline-block;
@@ -275,4 +277,13 @@
 			#gradient.vertical(#bbd3de, #cae1ec);
 		}
 	}
+}
+
+.txt {
+	font-family: Ubuntu, Verdana, Arial, sans-serif;
+	background-color: white;
+	padding: 0 10px;
+	border-radius: 2px;
+	border: 1px solid rgba(0,0,0,0.05);
+	outline: none;
 }
