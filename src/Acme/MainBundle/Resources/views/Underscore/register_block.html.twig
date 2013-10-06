@@ -1,0 +1,24 @@
+{%raw%}	
+	<script type="text/template" id="reg_block">
+		<ul class="registration">
+			<li>
+				<label>E-mail:</label>
+				<input class="txt email_field <%if(model.error.email){%>error<%}%>" type="text" placeholder="E-mail" <%if(model.params.email){%>value="<%=model.params.email%>"<%}%> />
+				<%if(model.error.email){%><span class="alert"><%=model.error.email%></span><%}%>
+			</li>
+			<li>
+				<label>Пароль:</label>
+				<input class="txt password_field <%if(model.error.password){%>error<%}%>" type="password" placeholder="Пароль" <%if(model.params.password){%>value="<%=model.params.password%>"<%}%> />
+				<%if(model.error.password){%><span class="alert"><%=model.error.password%></span><%}%>
+			</li>
+			<li class="ctrl-block">
+				<input type="button" class="btn reg-apply" value="Зарегистрироваться" />
+				<a href="<%=model.root%>" class="btn gray">Отмена</a>
+			</li>
+		</ul>
+		<form method="post" action="{%endraw%}{{ path('login_check') }}{%raw%}" class="auto_login">
+			<input type="hidden" name="_password" <%if(model.params.password){%>value="<%=model.params.password%>"<%}%> />
+			<input type="hidden" name="_username" <%if(model.params.email){%>value="<%=model.params.email%>"<%}%> />
+		</form>
+	</script>
+{%endraw%}

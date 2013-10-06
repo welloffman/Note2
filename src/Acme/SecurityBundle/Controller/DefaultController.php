@@ -5,6 +5,7 @@ namespace Acme\SecurityBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Acme\ModelBundle\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller {
     public function indexAction($name) {
@@ -38,50 +39,41 @@ class DefaultController extends Controller {
         );
     }
 
-    /**
-     * Страница регистрации
-     */
-    public function registrationAction() {
-        $error = null;
+	/**
+	* Страница регистрации
+	*/
+	public function registrationAction() {
+		$req = $this->getRequest()->request;
+		$password = $req->get('password');
+		$email = $req->get('email');
+		$error = array();
 
-        $req = $this->getRequest()->request;
-        
-        $username = $req->get('username');
-        $password = $req->get('password');
-        $email = $req->get('email');
+		if(!$email) {
+			$error['email'] = 'Введите Email';
+		} else if( $this->getDoctrine()->getManager()->getRepository('AcmeModelBundle:User')->findOneBy(array('email' => $email)) ) {
+			$error['email'] = 'Такой Email уже используется';
+		} else if(strlen($password) < 6) {
+			$error['password'] = 'Введите пароль не менее 6-ти символов';
+		} else if(!preg_match('~^[\da-zA-z_]+$~', $password)) {
+			$error['password'] = 'В пароле можно использовать только латинские буквы, цифры и знак нижнего подчеркивания';
+		} else {
+			$user = new User();
 
-        if($req->get('process')) {
-            if(!$username) {
-                $error = array('message' => 'Введите имя пользователя');
-            } else if(strlen($password) < 6) {
-                $error = array('message' => 'Введите пароль не менее 6-ти символов');
-            } else if( $this->getDoctrine()->getManager()->getRepository('AcmeModelBundle:User')->findOneBy(array('username' => $username)) ) {
-                $error = array('message' => 'Такое имя пользователя уже существует');
-            } else if( $this->getDoctrine()->getManager()->getRepository('AcmeModelBundle:User')->findOneBy(array('email' => $email)) ) {
-                $error = array('message' => 'Такой Email уже используется');
-            } else {
-                $user = new User();
-                $user->setUsername($username);
+			$user->setUsername($email);
 
-                $factory = $this->get('security.encoder_factory');
-                $encoder = $factory->getEncoder($user);
-                $enc_password = $encoder->encodePassword($password, $user->getSalt());
-                $user->setPassword($enc_password);
+			$factory = $this->get('security.encoder_factory');
+			$encoder = $factory->getEncoder($user);
+			$enc_password = $encoder->encodePassword($password, $user->getSalt());
+			$user->setPassword($enc_password);
 
-                $user->setEmail($email);
-                $user->setCreated(new \DateTime());
+			$user->setEmail($email);
+			$user->setCreated(new \DateTime());
 
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($user);
-                $em->flush();
-                return $this->redirect($this->generateUrl('login'));
-            }
-        }
+			$em = $this->getDoctrine()->getEntityManager();
+			$em->persist($user);
+			$em->flush();
+		}
 
-        return $this->render(
-            'AcmeSecurityBundle:Default:registration.html.twig', array(
-                'error' => $error
-            )
-        );
-    }
+		return new JsonResponse( array('success' => true, 'error' => $error, 'params' => array('email' => $email, 'password' => $password)) );
+	}
 }

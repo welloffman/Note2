@@ -39,10 +39,6 @@ login_check:
 logout:
     pattern:   /logout
 
-registration: 
-    pattern: /registration
-    defaults: { _controller: AcmeSecurityBundle:Default:registration }
-
 test:
     pattern: /test
     defaults: { _controller: AcmeMainBundle:Test:index }
@@ -129,3 +125,14 @@ profile:
     pattern: /profile/
     defaults: { _controller: AcmeMainBundle:Profile:index}
 
+paste:
+    pattern: /reg_apply
+    defaults: { _controller: AcmeSecurityBundle:Default:registration }
+    requirements: 
+        _method: POST
+
+homepage_hash: 
+    pattern: /{hash}
+    defaults: { _controller: AcmeMainBundle:Default:index}
+    requirements:
+        hash: "[\w\/]{0,}"

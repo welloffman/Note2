@@ -287,3 +287,51 @@
 	border: 1px solid rgba(0,0,0,0.05);
 	outline: none;
 }
+
+.registration {
+	li {
+		position: relative;
+		padding: 2px 0;
+
+		label {
+			width: 90px;
+			color: black;
+			font-size: 11pt;
+			text-align: right;
+			padding-right: 5px;
+			padding-top: 10px;
+
+			.inline-block;
+		}
+
+		input {
+			&.txt {
+				width: 200px;
+				vertical-align: top;
+				margin: 0;
+				height: 35px;
+				font-size: 11pt;
+				
+				.box-sizing(border-box);
+			}
+
+			&.error {
+				border-color: red;
+			}
+		}
+
+		&.ctrl-block {
+			padding-top: 15px;
+		}
+
+		.alert {
+			position: absolute;
+			top: 14px;
+			left: 670px;
+			color: red;
+			font-size: 10pt;
+			padding-right: 10px;
+			text-align: left;
+		}
+	}
+}
