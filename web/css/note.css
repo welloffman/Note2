@@ -1324,6 +1324,9 @@ body {
 .note .note-content pre code {
   font-family: monospace, Verdana, Arial, sans-serif;
 }
+.note .note-content pre code span {
+  line-height: 1.5;
+}
 .popup {
   position: fixed;
   top: 0;
