@@ -111,7 +111,7 @@ class Note extends Model
      */
     public function setContent($content)
     {
-        $this->content = trim(strip_tags($content, '<strong><em><span><p><address><pre><h1><h2><h3><h4><h5><h6><br><ul><ol><li><a><div>'));
+        $this->content = trim(strip_tags($content, '<strong><em><span><p><address><pre><h1><h2><h3><h4><h5><h6><br><ul><ol><li><a><div><code>'));
         return $this;
     }
 

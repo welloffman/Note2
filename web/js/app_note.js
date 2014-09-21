@@ -82,7 +82,7 @@ $(function() {
 	tinyMCE.init({
 		mode: "none",
 		theme: "advanced",
-		theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,undo,redo,|,forecolor,backcolor,|,link,unlink",
+		theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,formatselect,fontsizeselect,|,bullist,numlist,|,undo,redo,|,forecolor,backcolor,|,link,unlink,code",
         theme_advanced_buttons2: "",
         theme_advanced_buttons3: "",
         theme_advanced_buttons4: "",

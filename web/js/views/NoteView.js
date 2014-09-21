@@ -14,6 +14,9 @@ var NoteView = Backbone.View.extend({
 
 		this.model.bind('change', function() {
 			$(".js-note").html(self.render().el);
+
+			hljs.initHighlighting.called = false;
+			hljs.initHighlighting();
 		});
 	}
 });

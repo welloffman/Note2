@@ -1321,6 +1321,9 @@ body {
 .note .note-content a:hover {
   text-decoration: none;
 }
+.note .note-content pre code {
+  font-family: monospace, Verdana, Arial, sans-serif;
+}
 .popup {
   position: fixed;
   top: 0;

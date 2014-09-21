@@ -125,7 +125,7 @@ profile:
     pattern: /profile/
     defaults: { _controller: AcmeMainBundle:Profile:index}
 
-paste:
+reg_apply:
     pattern: /reg_apply
     defaults: { _controller: AcmeSecurityBundle:Default:registration }
     requirements: 
